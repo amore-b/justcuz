@@ -14,7 +14,7 @@ class MerchandiseController extends MyController
               //echo "Oracle Connect Error " . $err['message']; 
             //}
             $cc = $_SESSION["c"];
-            $stid = oci_parse($cc, "SELECT * from merchandise_supplies");
+            $stid = oci_parse($cc, "SELECT * from merchandise_supplies where type ='". $item_type. "'");
             if (!$stid) {
                 $e = OCIError($cc);
                 trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
