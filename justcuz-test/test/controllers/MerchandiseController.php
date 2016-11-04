@@ -36,20 +36,20 @@ class MerchandiseController extends MyController
             oci_close($cc);
                 switch($item_type) {//request->url_elements[3]) {
                 case "jeans":
-                     $data["message"] =  $item_type . " has been requested";
+                     //$data["message"] =  $item_type . " has been requested";
                     //$data = $json;
                     break;
                 case "purse":
-                    $data["message"] =  $item_type . " has been requested";
+                    //$data["message"] =  $item_type . " has been requested";
                     break;
                 case "shirt":
-                    $data["message"] =  $item_type . " has been requested";
+                    //$data["message"] =  $item_type . " has been requested";
                     break;
                 case "shoes":
-                    $data["message"] =  $item_type . " has been requested";
+                    //$data["message"] =  $item_type . " has been requested";
                     break;
                 case "sweater":
-                    $data["message"] =  $item_type . " has been requested";
+                    //$data["message"] =  $item_type . " has been requested";
                     break;
                 default:
                     // do nothing, this is not a supported action
