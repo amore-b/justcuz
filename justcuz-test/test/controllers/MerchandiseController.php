@@ -4,7 +4,32 @@ class MerchandiseController extends MyController
 {
     public function getAction($request) {
         if(isset($request->url_elements[2])) {
-            $item_type = (string)$request->url_elements[2];
+
+            $cc = $_SESSION["c"];
+            $attr = (string)$request->url_elements[2];
+            $val = (string)$request->url_elements[3];
+
+            if ($val == 'all') {
+                    $stid = oci_parse($cc, "SELECT * from merchandise_supplies");
+            } else {
+                switch($attr) {
+                    case "type":
+                        $item_type = $val;
+                        $stid = oci_parse($cc, "SELECT * from merchandise_supplies where type ='". $item_type. "'");
+                        break;
+                    case "gender":
+                        $gender = $val;
+                        $stid = oci_parse($cc, "SELECT * from merchandise_supplies where gender ='". $gender. "'");
+                        break;
+                    case "color":
+                        $color = $val;
+                        $stid = oci_parse($cc, "SELECT * from merchandise_supplies where color ='". $color. "'");
+                        break;
+                    default:
+                        break;
+                }
+            }
+            
             //if(isset($request->url_elements[3])) {
                 //what sort of error checking is needed?????
             //if ($c=OCILogon("ora_r5d8", "a29093119", "dbhost.ugrad.cs.ubc.ca:1522/ug")) { 
@@ -13,8 +38,6 @@ class MerchandiseController extends MyController
              // $err = OCIError(); 
               //echo "Oracle Connect Error " . $err['message']; 
             //}
-            $cc = $_SESSION["c"];
-            $stid = oci_parse($cc, "SELECT * from merchandise_supplies where type ='". $item_type. "'");
             if (!$stid) {
                 $e = OCIError($cc);
                 trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
