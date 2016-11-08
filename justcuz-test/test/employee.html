@@ -79,24 +79,26 @@
         // for (var j in data[0]) {
         //   console.log(data[0][j]);
         // }
-        var keys = Object.keys(data[0]);
-        console.log(keys);
         console.log(data.length);
-        var table = $("<table>");
-        table.append($("<tr>"));
 
-        for (var i=0; i<keys.length; i++) {
-          table.append($("<td><b>"+keys[i]+"</b></td>"));
-        }
-        table.append($("</tr>"));
-        if (data.length != undefined){
+        if ((data.length != undefined) && (data.length != 0)) {
+          var keys = Object.keys(data[0]);
+          console.log(keys);
+          var table = $("<table>");
+          table.append($("<tr>"));
+          for (var i=0; i<keys.length; i++) {
+            table.append($("<td><b>"+keys[i]+"</b></td>"));
+          }
+          table.append($("</tr>"));
           for (var i=0; i< data.length; i++){
             table.append($(drawRow(data[i],keys)));
           }
           table.append($("</table>"));
           $('#catalog').html(table);
+        } else {
+          console.log("nothing.");
+          $('#catalog').html("<p>No results found.</p>");
         }
-        else{console.log("amore broke it");}
       }
 
       function drawRow(rowData,labels){
