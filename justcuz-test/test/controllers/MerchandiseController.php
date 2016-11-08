@@ -25,6 +25,10 @@ class MerchandiseController extends MyController
                         $color = $val;
                         $stid = oci_parse($cc, "SELECT * from merchandise_supplies where color ='". $color. "'");
                         break;
+                    case "item_num":
+                        $item_num = $val;
+                        $stid = oci_parse($cc, "SELECT * from merchandise_supplies where item_num ='". $item_num. "'");
+                        break;
                     default:
                         break;
                 }

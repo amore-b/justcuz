@@ -22,7 +22,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 
-if ($c=OCILogon("ora_n1c0b", "a66216086", "dbhost.ugrad.cs.ubc.ca:1522/ug")) { 
+if ($c=OCILogon("ora_m3c9", "a39296132", "dbhost.ugrad.cs.ubc.ca:1522/ug")) { 
   $_SESSION["c"] = $c;
   //echo "Successfully connected to Oracle.\n"; 
 } else { 
