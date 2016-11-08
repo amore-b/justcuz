@@ -70,12 +70,6 @@
         for (var i=0; i<keys.length; i++) {
           table.append($("<td><b>"+keys[i]+"</b></td>"));
         }
-        // table.append($("<td><b>ITEM_NUM</b></td>"));
-        // table.append($("<td><b>PRICE</b></td>"));
-        // table.append($("<td><b>TYPE</b></td>"));
-        // table.append($("<td><b>GENDER</b></td>"));
-        // table.append($("<td><b>COLOR</b></td>"));
-        // table.append($("<td><b>COMPANY_NAME</b></td>"));
         table.append($("</tr>"));
         if (data.length != undefined){
           for (var i=0; i< data.length; i++){
@@ -87,14 +81,15 @@
         }
         //else{console.log("amore broke it");}
       }
-	//key = attribute name
+	
+      // labels is an array containing the attribute names
       function drawRow(rowData,labels){
         //$("#catalog").append(row);
         console.log(rowData);
         var row = $("<tr>");
-	row.append($("<td>" + "<a href = 'http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
-	var link = "http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?value=" + rowData.ITEM_NUM;
-      	$("a").attr("href", link);
+	       row.append($("<td>" + "<a href = 'http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?value=" + rowData.ITEM_NUM + "'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
+	      //var link = "http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?value=" + rowData.ITEM_NUM;
+      	//$("a").attr("href", link);
         for (var i=1; i< labels.length; i++) {
           row.append($("<td>" + rowData[labels[i]] + "</td>"));
         }
