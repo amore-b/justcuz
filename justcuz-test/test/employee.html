@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <!-- Site Properties -->
-  <title>Stuff 'n Things</title>
+  <title>Stuff 'n Things - Employee View</title>
 
   <!-- replaced sample page links with CDN from https://cdnjs.com/libraries/-->
 
@@ -49,14 +49,31 @@
         transition: 'vertical flip in',
         duration: 500
       });
-      $('.main.menu  .ui.dropdown')
-        .dropdown()
-      ;
+      // $('.main.menu  .ui.dropdown')
+      //   .dropdown()
+      // ;
+      $('.ui.button').on('click', function() {
+        var cid = $("input:first").val();
+        console.log("clicked ui button");
+        console.log(cid);
+        searchCID(cid);
+      });
+
+      function searchCID(cid) {
+        console.log(cid);
+        $.ajax({
+          url: "index7.php/order/" + cid,
+          success: function(result) {
+            console.log(result);
+              //$('#catalog').html(result);
+            drawTable(result);
+          },
+          error: function() {
+            console.log("nope");
+          }
+        })
+      }
       
-      // show dropdown on hover
-      // $('.main.menu  .ui.dropdown').dropdown({
-      //   on: 'hover'
-      // });
       function drawTable(data, value){
         console.log("IN DRAW TABLE");
         // for (var j in data[0]) {
@@ -64,25 +81,19 @@
         // }
         var keys = Object.keys(data[0]);
         console.log(keys);
-
+        console.log(data.length);
         var table = $("<table>");
         table.append($("<tr>"));
+
         for (var i=0; i<keys.length; i++) {
           table.append($("<td><b>"+keys[i]+"</b></td>"));
         }
-        // table.append($("<td><b>ITEM_NUM</b></td>"));
-        // table.append($("<td><b>PRICE</b></td>"));
-        // table.append($("<td><b>TYPE</b></td>"));
-        // table.append($("<td><b>GENDER</b></td>"));
-        // table.append($("<td><b>COLOR</b></td>"));
-        // table.append($("<td><b>COMPANY_NAME</b></td>"));
         table.append($("</tr>"));
         if (data.length != undefined){
           for (var i=0; i< data.length; i++){
             table.append($(drawRow(data[i],keys)));
           }
           table.append($("</table>"));
-          table.append($("<br /><p>Filtered by "+ value +"</p>"));
           $('#catalog').html(table);
         }
         else{console.log("amore broke it");}
@@ -95,35 +106,9 @@
         for (var i=0; i< labels.length; i++) {
           row.append($("<td>" + rowData[labels[i]] + "</td>"));
         }
-        // row.append($("<td>" + rowData.ITEM_NUM + "</td>"));
-        // row.append($("<td>" + rowData.PRICE + "</td>"));
-        // row.append($("<td>" + rowData.TYPE + "</td>"));
-        // row.append($("<td>" + rowData.GENDER + "</td>"));
-        // row.append($("<td>" + rowData.COLOR + "</td>"));
-        // row.append($("<td>" + rowData.COMPANY_NAME + "</td>"));
         row.append($("</tr>"));
         return row;
       }
-
-      $(function() {
-          $('.ui.right.floated.dropdown').dropdown({
-            onChange: function(value) {
-              console.log(value);
-              $.ajax({
-                url: "index7.php/merchandise/" + value,
-                success: function(result) {
-                    console.log(result);
-                    //$('#catalog').html(result);
-                    drawTable(result, value);
-                },
-                error: function() {
-                    console.log("nope");
-                }
-              })
-            }
-          });
-      });
-
 
     })
   ;
@@ -184,59 +169,18 @@
   <div class="ui main text container">
     <h1 class="ui header">Stuff n' Things</h1>
   </div>
-  <a href = "http://www.ugrad.cs.ubc.ca/~n4e9/justcuz/justcuz-test/test/manager.html#" class="item">Managers Only</a>
 
 
   <div class="ui borderless main menu">
     <div class="ui text container">
       <div href="#" class="header item">
         <img class="logo" src="assets/images/logo.png">
-        Stuff n' Things
-      </div>
-      <a href="#" class="item">Blog</a>
-      <a href="#" class="item">Articles</a>
-
-      <!-- TODO: we need labels for these drop-down boxes -->
-      <div class="ui right floated selection dropdown">
-        <input name="type" type="hidden">
-        <i class="dropdown icon"></i>
-        <div class="default text">Type</div>
-        <div class="menu">
-          <div class="item" data-value="type/all">All</div>
-          <div class="item" data-value="type/jeans">Jeans</div>
-          <div class="item" data-value="type/shirt">Shirts</div>
-          <div class="item" data-value="type/shoes">Shoes</div>
-          <div class="item" data-value="type/purse">Purses</div>
-          <div class="item" data-value="type/sweater">Sweaters</div>
-        </div>
+        Employee View
       </div>
 
-      <!-- TODO: we need labels for these drop-down boxes -->
-      <div class="ui right floated selection dropdown">
-        <input name="gender" type="hidden">
-        <i class="dropdown icon"></i>
-        <div class="default text">Gender</div>
-        <div class="menu">
-          <div class="item" data-value="gender/all">All</div>
-          <div class="item" data-value="gender/M">Men</div>
-          <div class="item" data-value="gender/W">Women</div>
-          <div class="item" data-value="gender/U">Unisex</div>
-        </div>
-      </div>
-
-      <!-- TODO: we need labels for these drop-down boxes -->
-      <div class="ui right floated selection dropdown">
-        <input name="color" type="hidden">
-        <i class="dropdown icon"></i>
-        <div class="default text">Color</div>
-        <div class="menu">
-          <div class="item" data-value="color/all">All</div>
-          <div class="item" data-value="color/blue">Blue</div>
-          <div class="item" data-value="color/pink">Pink</div>
-          <div class="item" data-value="color/white">White</div>
-          <div class="item" data-value="color/black">Black</div>
-          <div class="item" data-value="color/orange">Orange</div>
-        </div>
+      <div class="ui action input">
+        <input placeholder="Search..." type="text">
+        <button class="ui button">Search</button>
       </div>
 
  
