@@ -57,28 +57,50 @@
       // $('.main.menu  .ui.dropdown').dropdown({
       //   on: 'hover'
       // });
-      function drawTable(data){
+      function drawTable(data, value){
         console.log("IN DRAW TABLE");
+        // for (var j in data[0]) {
+        //   console.log(data[0][j]);
+        // }
+        var keys = Object.keys(data[0]);
+        console.log(keys);
+
         var table = $("<table>");
+        table.append($("<tr>"));
+        for (var i=0; i<keys.length; i++) {
+          table.append($("<td><b>"+keys[i]+"</b></td>"));
+        }
+        // table.append($("<td><b>ITEM_NUM</b></td>"));
+        // table.append($("<td><b>PRICE</b></td>"));
+        // table.append($("<td><b>TYPE</b></td>"));
+        // table.append($("<td><b>GENDER</b></td>"));
+        // table.append($("<td><b>COLOR</b></td>"));
+        // table.append($("<td><b>COMPANY_NAME</b></td>"));
+        table.append($("</tr>"));
         if (data.length != undefined){
           for (var i=0; i< data.length; i++){
-            table.append($(drawRow(data[i])));
+            table.append($(drawRow(data[i],keys)));
           }
           table.append($("</table>"));
+          table.append($("<br /><p>Filtered by "+ value +"</p>"));
           $('#catalog').html(table);
         }
         else{console.log("amore broke it");}
       }
 
-      function drawRow(rowData){
+      function drawRow(rowData,labels){
         //$("#catalog").append(row);
+        console.log(rowData);
         var row = $("<tr>");
-        row.append($("<td>" + rowData.COLOR + "</td>"));
-        row.append($("<td>" + rowData.COMPANY_NAME + "</td>"));
-        row.append($("<td>" + rowData.GENDER + "</td>"));
-        row.append($("<td>" + rowData.ITEM_NUM + "</td>"));
-        row.append($("<td>" + rowData.PRICE + "</td>"));
-        row.append($("<td>" + rowData.TYPE + "</td>"));
+        for (var i=0; i< labels.length; i++) {
+          row.append($("<td>" + rowData[labels[i]] + "</td>"));
+        }
+        // row.append($("<td>" + rowData.ITEM_NUM + "</td>"));
+        // row.append($("<td>" + rowData.PRICE + "</td>"));
+        // row.append($("<td>" + rowData.TYPE + "</td>"));
+        // row.append($("<td>" + rowData.GENDER + "</td>"));
+        // row.append($("<td>" + rowData.COLOR + "</td>"));
+        // row.append($("<td>" + rowData.COMPANY_NAME + "</td>"));
         row.append($("</tr>"));
         return row;
       }
@@ -92,7 +114,7 @@
                 success: function(result) {
                     console.log(result);
                     //$('#catalog').html(result);
-                    drawTable(result);
+                    drawTable(result, value);
                 },
                 error: function() {
                     console.log("nope");
@@ -179,12 +201,12 @@
         <i class="dropdown icon"></i>
         <div class="default text">Type</div>
         <div class="menu">
-          <div class="item" data-value="/type/all">All</div>
-          <div class="item" data-value="/type/jeans">Jeans</div>
-          <div class="item" data-value="/type/shirt">Shirts</div>
-          <div class="item" data-value="/type/shoes">Shoes</div>
-          <div class="item" data-value="/type/purse">Purses</div>
-          <div class="item" data-value="/type/sweater">Sweaters</div>
+          <div class="item" data-value="type/all">All</div>
+          <div class="item" data-value="type/jeans">Jeans</div>
+          <div class="item" data-value="type/shirt">Shirts</div>
+          <div class="item" data-value="type/shoes">Shoes</div>
+          <div class="item" data-value="type/purse">Purses</div>
+          <div class="item" data-value="type/sweater">Sweaters</div>
         </div>
       </div>
 
@@ -194,10 +216,10 @@
         <i class="dropdown icon"></i>
         <div class="default text">Gender</div>
         <div class="menu">
-          <div class="item" data-value="/gender/all">All</div>
-          <div class="item" data-value="/gender/M">Men</div>
-          <div class="item" data-value="/gender/W">Women</div>
-          <div class="item" data-value="/gender/U">Unisex</div>
+          <div class="item" data-value="gender/all">All</div>
+          <div class="item" data-value="gender/M">Men</div>
+          <div class="item" data-value="gender/W">Women</div>
+          <div class="item" data-value="gender/U">Unisex</div>
         </div>
       </div>
 
@@ -207,12 +229,12 @@
         <i class="dropdown icon"></i>
         <div class="default text">Color</div>
         <div class="menu">
-          <div class="item" data-value="/color/all">All</div>
-          <div class="item" data-value="/color/blue">Blue</div>
-          <div class="item" data-value="/color/pink">Pink</div>
-          <div class="item" data-value="/color/white">White</div>
-          <div class="item" data-value="/color/black">Black</div>
-          <div class="item" data-value="/color/orange">Orange</div>
+          <div class="item" data-value="color/all">All</div>
+          <div class="item" data-value="color/blue">Blue</div>
+          <div class="item" data-value="color/pink">Pink</div>
+          <div class="item" data-value="color/white">White</div>
+          <div class="item" data-value="color/black">Black</div>
+          <div class="item" data-value="color/orange">Orange</div>
         </div>
       </div>
 
