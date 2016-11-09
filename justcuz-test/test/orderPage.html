@@ -58,6 +58,21 @@
                 }
               })
     });
+    $(function(){
+      $.ajax({
+                url: "index7.php/customer",
+                success: function(result) {
+                  console.log("yup");
+                    console.log(result);
+                },
+                error: function() {
+                    console.log("nope on customer");
+                }
+              })
+    });
+    //store the json result of customers in an invisible table so its cid can be used for comparisons in the future
+    //TODO: implement code to handle form submission
+
     </script>
   <style type="text/css">
   body {
@@ -139,13 +154,15 @@
     Email:<br>
     <input type="text" name="email"><br>
     Address (Number, Street, City, Province, Postal Code):<br>
-    <input type="text" name="address"><br><br>
+    <input type="text" name="address"><br>
+    Card Number:<br><input type="text" name="cardnumber"><br>
     Card Type:<br>
-    <input type="radio" name="card type" value="visa"> Visa <br>
-    <input type="radio" name="card type" value="mastercard"> MasterCard <br>
-    <input type="radio" name="card type" value="amex"> Amex <br>
+    <input type="radio" name="cardtype" value="visa"> Visa <br>
+    <input type="radio" name="cardtype" value="mastercard"> MasterCard <br>
+    <input type="radio" name="cardtype" value="amex"> Amex <br>
     <br>
-    <br>
+    <input type="submit" value="Submit">
+    </form>
     <!--Quantity:<br>
     <form oninput="x.value=parseInt(a.value)*parseFloat(b.value)">
     <input type="number" id="a" value="1">
