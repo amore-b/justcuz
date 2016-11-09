@@ -27,11 +27,20 @@
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/dropdown.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/icon.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/transition.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/button.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/modal.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/dimmer.min.css">  
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/form.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/input.min.css">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/transition.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/dropdown.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/visibility.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/modal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/dimmer.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/form.min.js"></script>  
+
   <script>
   $(document)
     .ready(function() {
@@ -62,46 +71,47 @@
         // for (var j in data[0]) {
         //   console.log(data[0][j]);
         // }
-        var keys = Object.keys(data[0]);
-        console.log(keys);
 
-        var table = $("<table>");
-        table.append($("<tr>"));
-        for (var i=0; i<keys.length; i++) {
-          table.append($("<td><b>"+keys[i]+"</b></td>"));
-        }
-        // table.append($("<td><b>ITEM_NUM</b></td>"));
-        // table.append($("<td><b>PRICE</b></td>"));
-        // table.append($("<td><b>TYPE</b></td>"));
-        // table.append($("<td><b>GENDER</b></td>"));
-        // table.append($("<td><b>COLOR</b></td>"));
-        // table.append($("<td><b>COMPANY_NAME</b></td>"));
-        table.append($("</tr>"));
-        if (data.length != undefined){
+        if ((data.length != undefined) && (data.length != 0)) {
+          var keys = Object.keys(data[0]);
+          console.log(keys);
+          var table = $("<table>");
+          table.append($("<tr>"));
+          for (var i=0; i<keys.length; i++) {
+            table.append($("<td><b>"+keys[i]+"</b></td>"));
+          }
+          table.append($("</tr>"));
           for (var i=0; i< data.length; i++){
             table.append($(drawRow(data[i],keys)));
           }
           table.append($("</table>"));
           table.append($("<br /><p>Filtered by "+ value +"</p>"));
           $('#catalog').html(table);
+        } else {
+          console.log("nothing.");
+          drawNoResults();
         }
         //else{console.log("amore broke it");}
       }
-	//key = attribute name
+	
+      // labels is an array containing the attribute names
       function drawRow(rowData,labels){
         //$("#catalog").append(row);
         console.log(rowData);
 	console.log(rowData.ITEM_NUM);
         var row = $("<tr>");
-	row.append($("<td>" + "<a href = 'http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
-	var link = "http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?value=" + rowData.ITEM_NUM;
-      	$("a").attr("href", link);
-	console.log(link);
+	row.append($("<td>" + "<a href = 'http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?value=" + rowData.ITEM_NUM + "'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
+	      //var link = "http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?value=" + rowData.ITEM_NUM;
+      	//$("a").attr("href", link);
         for (var i=1; i< labels.length; i++) {
           row.append($("<td>" + rowData[labels[i]] + "</td>"));
         }
         row.append($("</tr>"));
         return row;
+      }
+
+      function drawNoResults() {
+          $('#catalog').html("<p>No results found.</p>");
       }
 
       $(function() {
@@ -123,7 +133,65 @@
           });
       });
 
+      $('#loginButton').click(
+        function() {
+          $('#loginModal').modal('show');
+        });
+      
+      $('#loginForm')
+        .form({
+          fields: {
+            email: {
+              identifier  : 'email',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter your e-mail'
+                },
+                {
+                  type   : 'email',
+                  prompt : 'Please enter a valid e-mail'
+                }
+              ]
+            },
+            password: {
+              identifier  : 'password',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter your password'
+                },
+                {
+                  type   : 'length[6]',
+                  prompt : 'Your password must be at least 6 characters'
+                }
+              ]
+            }
+          }
 
+        });
+
+        $('#loginForm').submit(function(e) {
+          e.preventDefault();
+          
+          if($('#loginForm').form('is valid')) {
+            var values = {};
+            $.each($('#loginForm').serializeArray(), function(i, field) {
+                values[field.name] = field.value;
+            });
+
+            $.ajax({
+              url: "index7.php/users/login",
+              type: 'post',
+              data: values,
+              success: function(result) {
+                $('#loginModal').modal('hide');
+                $('#loginButton').replaceWith("<i class='user icon'></icon>");
+                //todo: error case
+              }
+            })
+          }
+        })
     })
   ;
   </script>
@@ -175,6 +243,20 @@
     margin: 5em 0em 0em;
     padding: 5em 0em;
   }
+  .ui.segment {
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+    border: 0px;
+  }
+  .ui.stacked.segment {
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+  }
+  .ui.stacked.segment:after {
+    border-top: 0px;
+    height: 0;
+  }
+  .ui.error.message {
+    text-align: left;
+  }
   </style>
 
 </head>
@@ -183,62 +265,67 @@
   <div class="ui main text container">
     <h1 class="ui header">Stuff n' Things</h1>
   </div>
-  <a href = "http://www.ugrad.cs.ubc.ca/~n4e9/justcuz/justcuz-test/test/manager.html#" class="item">Managers Only</a>
+  <a href = "employee.html#" class="item">Employees Only</a>
+  <a href = "manager.html#" class="item">Managers Only</a>
 
 
   <div class="ui borderless main menu">
     <div class="ui text container">
       <div href="#" class="header item">
-        <img class="logo" src="assets/images/logo.png">
         Stuff n' Things
       </div>
-      <a href="#" class="item">Blog</a>
-      <a href="#" class="item">Articles</a>
-
-      <!-- TODO: we need labels for these drop-down boxes -->
-      <div class="ui right floated selection dropdown">
-        <input name="type" type="hidden">
-        <i class="dropdown icon"></i>
-        <div class="default text">Type</div>
-        <div class="menu">
-          <div class="item" data-value="type/all">All</div>
-          <div class="item" data-value="type/jeans">Jeans</div>
-          <div class="item" data-value="type/shirt">Shirts</div>
-          <div class="item" data-value="type/shoes">Shoes</div>
-          <div class="item" data-value="type/purse">Purses</div>
-          <div class="item" data-value="type/sweater">Sweaters</div>
+      <div class="ui text container">
+        <b>Type</b>
+        <div class="ui right floated selection dropdown">
+          <input name="type" type="hidden">
+          <i class="dropdown icon"></i>
+          <div class="default text">Type</div>
+          <div class="menu">
+            <div class="item" data-value="type/all">All</div>
+            <div class="item" data-value="type/jeans">Jeans</div>
+            <div class="item" data-value="type/shirt">Shirts</div>
+            <div class="item" data-value="type/shoes">Shoes</div>
+            <div class="item" data-value="type/purse">Purses</div>
+            <div class="item" data-value="type/sweater">Sweaters</div>
+          </div>
         </div>
       </div>
 
-      <!-- TODO: we need labels for these drop-down boxes -->
-      <div class="ui right floated selection dropdown">
-        <input name="gender" type="hidden">
-        <i class="dropdown icon"></i>
-        <div class="default text">Gender</div>
-        <div class="menu">
-          <div class="item" data-value="gender/all">All</div>
-          <div class="item" data-value="gender/M">Men</div>
-          <div class="item" data-value="gender/W">Women</div>
-          <div class="item" data-value="gender/U">Unisex</div>
+      <div class="ui text container">
+        <b>Gender</b>
+        <div class="ui right floated selection dropdown">
+          <input name="gender" type="hidden">
+          <i class="dropdown icon"></i>
+          <div class="default text">Gender</div>
+          <div class="menu">
+            <div class="item" data-value="gender/all">All</div>
+            <div class="item" data-value="gender/M">Men</div>
+            <div class="item" data-value="gender/W">Women</div>
+            <div class="item" data-value="gender/U">Unisex</div>
+          </div>
         </div>
       </div>
 
-      <!-- TODO: we need labels for these drop-down boxes -->
-      <div class="ui right floated selection dropdown">
-        <input name="color" type="hidden">
-        <i class="dropdown icon"></i>
-        <div class="default text">Color</div>
-        <div class="menu">
-          <div class="item" data-value="color/all">All</div>
-          <div class="item" data-value="color/blue">Blue</div>
-          <div class="item" data-value="color/pink">Pink</div>
-          <div class="item" data-value="color/white">White</div>
-          <div class="item" data-value="color/black">Black</div>
-          <div class="item" data-value="color/orange">Orange</div>
+      <div class="ui text container">
+        <b>Color</b>
+        <div class="ui right floated selection dropdown">
+          <input name="color" type="hidden">
+          <i class="dropdown icon"></i>
+          <div class="default text">Color</div>
+          <div class="menu">
+            <div class="item" data-value="color/all">All</div>
+            <div class="item" data-value="color/blue">Blue</div>
+            <div class="item" data-value="color/pink">Pink</div>
+            <div class="item" data-value="color/white">White</div>
+            <div class="item" data-value="color/black">Black</div>
+            <div class="item" data-value="color/orange">Orange</div>
+          </div>
         </div>
       </div>
 
- 
+      <!--/a-->
+      <button class="ui black basic button" id="loginButton">Log in</button>
+
     </div>
   </div>
 
@@ -287,6 +374,65 @@
         <a class="item" href="#">Terms and Conditions</a>
         <a class="item" href="#">Privacy Policy</a>
       </div>
+    </div>
+  </div>
+  <div class="ui modal" id="loginModal">
+  <i class="close icon"></i>
+  <div class="header">
+    <div class="ui middle aligned center aligned grid">
+    <div class="column">
+      <h2 class="ui teal header">
+        <div class="content">
+          Log in to your account
+        </div>
+      </h2>
+    </div>
+  </div>
+  </div>
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <form class="ui large form" id="loginForm" > <!--action="index7.php/users/login" method="post"-->
+
+      <!--div class="two wide column"-->
+      <div class="ui stacked segment">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input type="text" name="email" placeholder="E-mail address">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input type="password" name="password" placeholder="Password">
+          </div>
+        </div>
+      <div class="ui error message"></div>
+    <!--div class="ui button">Cancel</div-->
+    <div class="ui teal submit button">Log in</div>
+        
+      </div>
+
+
+    <!--/div-->
+
+    </form>
+
+
+
+  
+
+  </div>
+
+</div>
+
+
+    <div class="actions">
+      <div class="ui middle aligned center aligned grid">
+      <div class="ui message">
+        New to us? <a href="#">Sign Up</a>
+      </div>
+    </div>
     </div>
   </div>
 </body>
