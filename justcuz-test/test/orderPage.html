@@ -33,6 +33,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/dropdown.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/visibility.min.js"></script>
   <script>
+    $(document).ready(function(){
+      document.getElementById('inum').value=getParameterByName('value');
+    })
     function getParameterByName(name, url) {
     if (!url) {
       url = window.location.href;
@@ -155,6 +158,8 @@
     <input type="text" name="email"><br>
     Address (Number, Street, City, Province, Postal Code):<br>
     <input type="text" name="address"><br>
+    Item Number:<br>
+    <input type="text" id="inum" name="itemnum" value="" readonly><br>
     Card Number:<br><input type="text" name="cardnumber"><br>
     Card Type:<br>
     <input type="radio" name="cardtype" value="visa"> Visa <br>
