@@ -59,19 +59,29 @@
         searchCID(cid);
       });
 
+      function isNumeric(value) {
+        return /^\d+$/.test(value);
+      }
+
       function searchCID(cid) {
         console.log(cid);
-        $.ajax({
-          url: "index7.php/order/" + cid,
-          success: function(result) {
-            console.log(result);
-              //$('#catalog').html(result);
-            drawTable(result);
-          },
-          error: function() {
-            console.log("nope");
-          }
-        })
+
+        if (!isNumeric(cid)) {
+          console.log("NOT AN INTEGER");
+          drawNoResults();
+        } else {
+          $.ajax({
+            url: "index7.php/order/" + cid,
+            success: function(result) {
+              console.log(result);
+                //$('#catalog').html(result);
+              drawTable(result);
+            },
+            error: function() {
+              console.log("nope");
+            }
+          })
+        }
       }
       
       function drawTable(data, value){
@@ -97,7 +107,7 @@
           $('#catalog').html(table);
         } else {
           console.log("nothing.");
-          $('#catalog').html("<p>No results found.</p>");
+          drawNoResults();
         }
       }
 
@@ -110,6 +120,10 @@
         }
         row.append($("</tr>"));
         return row;
+      }
+
+      function drawNoResults() {
+          $('#catalog').html("<p>No results found.</p>");
       }
 
     })

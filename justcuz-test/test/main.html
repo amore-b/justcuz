@@ -80,7 +80,7 @@
           $('#catalog').html(table);
         } else {
           console.log("nothing.");
-          $('#catalog').html("<p>No results found.</p>");
+          drawNoResults();
         }
         //else{console.log("amore broke it");}
       }
@@ -98,6 +98,10 @@
         }
         row.append($("</tr>"));
         return row;
+      }
+
+      function drawNoResults() {
+          $('#catalog').html("<p>No results found.</p>");
       }
 
       $(function() {
@@ -179,6 +183,7 @@
   <div class="ui main text container">
     <h1 class="ui header">Stuff n' Things</h1>
   </div>
+  <a href = "http://www.ugrad.cs.ubc.ca/~n1c0b/test/employee.html#" class="item">Employees Only</a>
   <a href = "http://www.ugrad.cs.ubc.ca/~n4e9/justcuz/justcuz-test/test/manager.html#" class="item">Managers Only</a>
 
 
