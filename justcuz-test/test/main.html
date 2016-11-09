@@ -58,33 +58,59 @@
         transition: 'vertical flip in',
         duration: 500
       });
+      $('.main.menu  .ui.dropdown')
+        .dropdown()
+      ;
+      
       // show dropdown on hover
-      $('.main.menu  .ui.dropdown').dropdown({
-        on: 'hover'
-      });
-
-      function drawTable(data){
+      // $('.main.menu  .ui.dropdown').dropdown({
+      //   on: 'hover'
+      // });
+      function drawTable(data, value){
         console.log("IN DRAW TABLE");
-        if (data.length != undefined){
-            var table = $("<table>");
-          for (var i=0; i< data.length; i++){
-          
-          $('#catalog').html(drawRow(data[i]));
+        // for (var j in data[0]) {
+        //   console.log(data[0][j]);
+        // }
+
+        if ((data.length != undefined) && (data.length != 0)) {
+          var keys = Object.keys(data[0]);
+          console.log(keys);
+          var table = $("<table>");
+          table.append($("<tr>"));
+          for (var i=0; i<keys.length; i++) {
+            table.append($("<td><b>"+keys[i]+"</b></td>"));
           }
+          table.append($("</tr>"));
+          for (var i=0; i< data.length; i++){
+            table.append($(drawRow(data[i],keys)));
+          }
+          table.append($("</table>"));
+          table.append($("<br /><p>Filtered by "+ value +"</p>"));
+          $('#catalog').html(table);
+        } else {
+          console.log("nothing.");
+          drawNoResults();
         }
-        else{console.log("amore broke it");}
+        //else{console.log("amore broke it");}
+      }
+	
+      // labels is an array containing the attribute names
+      function drawRow(rowData,labels){
+        //$("#catalog").append(row);
+        console.log(rowData);
+        var row = $("<tr>");
+	       row.append($("<td>" + "<a href = 'http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?value=" + rowData.ITEM_NUM + "'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
+	      //var link = "http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?value=" + rowData.ITEM_NUM;
+      	//$("a").attr("href", link);
+        for (var i=1; i< labels.length; i++) {
+          row.append($("<td>" + rowData[labels[i]] + "</td>"));
+        }
+        row.append($("</tr>"));
+        return row;
       }
 
-      function drawRow(rowData){
-      var row= $("<tr />")
-      //$("#catalog").append(row);
-      row.append($("<td>" + rowData.COLOR + "</td>"));
-      row.append($("<td>" + rowData.COMPANY_NAME + "</td>"));
-      row.append($("<td>" + rowData.GENDER + "</td>"));
-      row.append($("<td>" + rowData.ITEM_NUM + "</td>"));
-      row.append($("<td>" + rowData.PRICE + "</td>"));
-      row.append($("<td>" + rowData.TYPE + "</td>"));
-      return row;
+      function drawNoResults() {
+          $('#catalog').html("<p>No results found.</p>");
       }
 
       $(function() {
@@ -96,7 +122,7 @@
                 success: function(result) {
                     console.log(result);
                     //$('#catalog').html(result);
-                    drawTable(result);
+                    drawTable(result, value);
                 },
                 error: function() {
                     console.log("nope");
@@ -238,6 +264,8 @@
   <div class="ui main text container">
     <h1 class="ui header">Stuff n' Things</h1>
   </div>
+  <a href = "http://www.ugrad.cs.ubc.ca/~n1c0b/test/employee.html#" class="item">Employees Only</a>
+  <a href = "http://www.ugrad.cs.ubc.ca/~n4e9/justcuz/justcuz-test/test/manager.html#" class="item">Managers Only</a>
 
 
   <div class="ui borderless main menu">
@@ -248,67 +276,59 @@
       </div>
       <a href="#" class="item">Blog</a>
       <a href="#" class="item">Articles</a>
-      <a href="#" class="ui right floated dropdown item">
-        Itemz <i class="dropdown icon"></i>
-        <div class="menu">
-          <div class="item">
-            <i class="dropdown icon"></i>
-            Shirt
-            <div class ="menu">
-	      <div class="item">All</div>
-              <div class="item">Price</div>
-              <div class="item">Gender</div>
-              <div class="item">Color</div>
-              <div class="item">Company</div>
-            </div>
-          </div>
-	  <div class="item">
-            <i class="dropdown icon"></i>
-            Jeans
-            <div class ="menu">
-              <div class="item">All</div>
-              <div class="item">Price</div>
-              <div class="item">Gender</div>
-              <div class="item">Color</div>
-              <div class="item">Company</div>
-            </div>
-          </div>
-	  <div class="item">
-            <i class="dropdown icon"></i>
-            Purse
-            <div class ="menu">
-              <div class="item">All</div>
-              <div class="item">Price</div>
-              <div class="item">Gender</div>
-              <div class="item">Color</div>
-              <div class="item">Company</div>
-            </div>
-          </div>
-	  <div class="item">
-            <i class="dropdown icon"></i>
-            Shoes
-            <div class ="menu">
-              <div class="item">All</div>
-              <div class="item">Price</div>
-              <div class="item">Gender</div>
-              <div class="item">Color</div>
-              <div class="item">Company</div>
-            </div>
-          </div>
-	  <div class="item">
-            <i class="dropdown icon"></i>
-            Sweater
-            <div class ="menu">
-              <div class="item">All</div>
-              <div class="item">Price</div>
-              <div class="item">Gender</div>
-              <div class="item">Color</div>
-              <div class="item">Company</div>
-            </div>
+
+      <div class="ui text container">
+        <b>Type</b>
+        <div class="ui right floated selection dropdown">
+          <input name="type" type="hidden">
+          <i class="dropdown icon"></i>
+          <div class="default text">Type</div>
+          <div class="menu">
+            <div class="item" data-value="type/all">All</div>
+            <div class="item" data-value="type/jeans">Jeans</div>
+            <div class="item" data-value="type/shirt">Shirts</div>
+            <div class="item" data-value="type/shoes">Shoes</div>
+            <div class="item" data-value="type/purse">Purses</div>
+            <div class="item" data-value="type/sweater">Sweaters</div>
           </div>
         </div>
-      </a>
+      </div>
+
+      <div class="ui text container">
+        <b>Gender</b>
+        <div class="ui right floated selection dropdown">
+          <input name="gender" type="hidden">
+          <i class="dropdown icon"></i>
+          <div class="default text">Gender</div>
+          <div class="menu">
+            <div class="item" data-value="gender/all">All</div>
+            <div class="item" data-value="gender/M">Men</div>
+            <div class="item" data-value="gender/W">Women</div>
+            <div class="item" data-value="gender/U">Unisex</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui text container">
+        <b>Color</b>
+        <div class="ui right floated selection dropdown">
+          <input name="color" type="hidden">
+          <i class="dropdown icon"></i>
+          <div class="default text">Color</div>
+          <div class="menu">
+            <div class="item" data-value="color/all">All</div>
+            <div class="item" data-value="color/blue">Blue</div>
+            <div class="item" data-value="color/pink">Pink</div>
+            <div class="item" data-value="color/white">White</div>
+            <div class="item" data-value="color/black">Black</div>
+            <div class="item" data-value="color/orange">Orange</div>
+          </div>
+        </div>
+      </div>
+
+      <!--/a-->
       <button class="ui black basic button" id="loginButton">Log in</button>
+
     </div>
   </div>
 

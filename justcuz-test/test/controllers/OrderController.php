@@ -1,39 +1,15 @@
 <?php
 
-class MerchandiseController extends MyController
+class OrderController extends MyController
 {
     public function getAction($request) {
         if(isset($request->url_elements[2])) {
 
-            $cc = $_SESSION["c"];
-            $attr = (string)$request->url_elements[2];
-            $val = (string)$request->url_elements[3];
+            $cid = (int)$request->url_elements[2];
 
-            if ($val == 'all') {
-                    $stid = oci_parse($cc, "SELECT * from merchandise_supplies");
-            } else {
-                switch($attr) {
-                    case "type":
-                        $item_type = $val;
-                        $stid = oci_parse($cc, "SELECT * from merchandise_supplies where type ='". $item_type. "'");
-                        break;
-                    case "gender":
-                        $gender = $val;
-                        $stid = oci_parse($cc, "SELECT * from merchandise_supplies where gender ='". $gender. "'");
-                        break;
-                    case "color":
-                        $color = $val;
-                        $stid = oci_parse($cc, "SELECT * from merchandise_supplies where color ='". $color. "'");
-                        break;
-                    case "item_num":
-                        $item_num = $val;
-                        $stid = oci_parse($cc, "SELECT * from merchandise_supplies where item_num ='". $item_num. "'");
-                        break;
-                    default:
-                        break;
-                }
-            }
-            
+            $cc = $_SESSION["c"];
+
+            $stid = oci_parse($cc, "SELECT * from order_delivers_buys, customer where order_delivers_buys.cid = customer.cid AND order_delivers_buys.cid =".$cid);
             //if(isset($request->url_elements[3])) {
                 //what sort of error checking is needed?????
             //if ($c=OCILogon("ora_r5d8", "a29093119", "dbhost.ugrad.cs.ubc.ca:1522/ug")) { 
