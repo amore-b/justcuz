@@ -27,11 +27,20 @@
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/dropdown.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/icon.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/transition.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/button.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/modal.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/dimmer.min.css">  
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/form.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/input.min.css">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/transition.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/dropdown.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/visibility.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/modal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/dimmer.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/form.min.js"></script>  
+
   <script>
   $(document)
     .ready(function() {
@@ -53,10 +62,13 @@
       $('.main.menu  .ui.dropdown').dropdown({
         on: 'hover'
       });
+
       function drawTable(data){
         console.log("IN DRAW TABLE");
         if (data.length != undefined){
+            var table = $("<table>");
           for (var i=0; i< data.length; i++){
+          
           $('#catalog').html(drawRow(data[i]));
           }
         }
@@ -94,7 +106,65 @@
           });
       });
 
+      $('#loginButton').click(
+        function() {
+          $('#loginModal').modal('show');
+        });
+      
+      $('#loginForm')
+        .form({
+          fields: {
+            email: {
+              identifier  : 'email',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter your e-mail'
+                },
+                {
+                  type   : 'email',
+                  prompt : 'Please enter a valid e-mail'
+                }
+              ]
+            },
+            password: {
+              identifier  : 'password',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter your password'
+                },
+                {
+                  type   : 'length[6]',
+                  prompt : 'Your password must be at least 6 characters'
+                }
+              ]
+            }
+          }
 
+        });
+
+        $('#loginForm').submit(function(e) {
+          e.preventDefault();
+          
+          if($('#loginForm').form('is valid')) {
+            var values = {};
+            $.each($('#loginForm').serializeArray(), function(i, field) {
+                values[field.name] = field.value;
+            });
+
+            $.ajax({
+              url: "index7.php/users/login",
+              type: 'post',
+              data: values,
+              success: function(result) {
+                $('#loginModal').modal('hide');
+                $('#loginButton').replaceWith("<i class='user icon'></icon>");
+                //todo: error case
+              }
+            })
+          }
+        })
     })
   ;
   </script>
@@ -145,6 +215,20 @@
   .ui.footer.segment {
     margin: 5em 0em 0em;
     padding: 5em 0em;
+  }
+  .ui.segment {
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+    border: 0px;
+  }
+  .ui.stacked.segment {
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+  }
+  .ui.stacked.segment:after {
+    border-top: 0px;
+    height: 0;
+  }
+  .ui.error.message {
+    text-align: left;
   }
   </style>
 
@@ -224,6 +308,7 @@
           </div>
         </div>
       </a>
+      <button class="ui black basic button" id="loginButton">Log in</button>
     </div>
   </div>
 
@@ -272,6 +357,65 @@
         <a class="item" href="#">Terms and Conditions</a>
         <a class="item" href="#">Privacy Policy</a>
       </div>
+    </div>
+  </div>
+  <div class="ui modal" id="loginModal">
+  <i class="close icon"></i>
+  <div class="header">
+    <div class="ui middle aligned center aligned grid">
+    <div class="column">
+      <h2 class="ui teal header">
+        <div class="content">
+          Log in to your account
+        </div>
+      </h2>
+    </div>
+  </div>
+  </div>
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <form class="ui large form" id="loginForm" > <!--action="index7.php/users/login" method="post"-->
+
+      <!--div class="two wide column"-->
+      <div class="ui stacked segment">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input type="text" name="email" placeholder="E-mail address">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input type="password" name="password" placeholder="Password">
+          </div>
+        </div>
+      <div class="ui error message"></div>
+    <!--div class="ui button">Cancel</div-->
+    <div class="ui teal submit button">Log in</div>
+        
+      </div>
+
+
+    <!--/div-->
+
+    </form>
+
+
+
+  
+
+  </div>
+
+</div>
+
+
+    <div class="actions">
+      <div class="ui middle aligned center aligned grid">
+      <div class="ui message">
+        New to us? <a href="#">Sign Up</a>
+      </div>
+    </div>
     </div>
   </div>
 </body>
