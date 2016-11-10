@@ -91,17 +91,16 @@
           console.log("nothing.");
           drawNoResults();
         }
-        //else{console.log("amore broke it");}
+
       }
 	
       // labels is an array containing the attribute names
       function drawRow(rowData,labels){
         //$("#catalog").append(row);
         console.log(rowData);
+	console.log(rowData.ITEM_NUM);
         var row = $("<tr>");
-	       row.append($("<td>" + "<a href = 'http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?value=" + rowData.ITEM_NUM + "'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
-	      //var link = "http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?value=" + rowData.ITEM_NUM;
-      	//$("a").attr("href", link);
+		row.append($("<td>" + "<a href = 'http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?value=" + rowData.ITEM_NUM + "'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
         for (var i=1; i< labels.length; i++) {
           row.append($("<td>" + rowData[labels[i]] + "</td>"));
         }
