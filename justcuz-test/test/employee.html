@@ -68,7 +68,7 @@
 
         if (!isNumeric(cid)) {
           console.log("NOT AN INTEGER");
-          drawNoResults();
+          $('#catalog').html("<p>Please enter a valid CID (integer only).</p>");
         } else {
           $.ajax({
             url: "index7.php/order/" + cid,
