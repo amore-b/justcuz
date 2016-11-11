@@ -24,6 +24,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 if ($c=OCILogon("ora_r5d8", "a29093119", "dbhost.ugrad.cs.ubc.ca:1522/ug")) { 
   $_SESSION["c"] = $c;
+  $_SESSION["test"] = "this is a test";
   //echo "Successfully connected to Oracle.\n"; 
 } else { 
   $err = OCIError(); 

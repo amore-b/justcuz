@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 class Request {
     public $url_elements;
     public $verb;

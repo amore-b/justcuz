@@ -40,10 +40,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/modal.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/dimmer.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/form.min.js"></script>  
+  <script src="client.js"></script>
 
   <script>
   $(document)
     .ready(function() {
+      var $cid, points = 0;
       // fix main menu to page on passing
       $('.main.menu').visibility({
         type: 'fixed'
@@ -170,27 +172,71 @@
 
         });
 
+        function checkForLoginCookie() {
+          var cookie = readCookie("justcuz");
+          if(cookie) {
+            $cid = cookie;
+            $.ajax({
+              url: "index7.php/users/cid/"+ $cid,
+              success: function(result) {
+                if(result["NAME"]) {
+                console.log(result["NAME"]);
+                createCookie("justcuz", result["CID"], 1);
+                points = result["POINTS"];
+                console.log(points);
+                showLoginButton(false, result["NAME"]);
+                }
+              },
+              error: function() {
+                console.log("nope 2");
+              }
+            })
+            //get user info using id
+            //replace login button with user icon
+
+          }
+        }
+
+        function showLoginButton(show, name) {
+          //console.log("yup");
+          if(!show) {
+            console.log("there");
+            $('#loginButton').replaceWith("<i class='user icon'></i>" + name + "<button class='ui black basic button' id='logoutButton'>Log out</button>");
+          } else {
+            console.log("here too");
+            $('#loginButton').replaceWith("<button class='ui black basic button' id='loginButton'>Log in</button>");
+          }
+        }
+
         $('#loginForm').submit(function(e) {
           e.preventDefault();
           
           if($('#loginForm').form('is valid')) {
-            var values = {};
-            $.each($('#loginForm').serializeArray(), function(i, field) {
-                values[field.name] = field.value;
-            });
+            var email = $('#loginEmail').val(),
+                password = $('#loginPassword').val();
 
             $.ajax({
               url: "index7.php/users/login",
-              type: 'post',
-              data: values,
+              type: 'get',
+              data: {"email": email, "password": password},
               success: function(result) {
-                $('#loginModal').modal('hide');
-                $('#loginButton').replaceWith("<i class='user icon'></icon>");
-                //todo: error case
+      				if(result["NAME"]) {
+      					console.log(result["NAME"]);
+                createCookie("justcuz", result["CID"], 1);
+                points = result["POINTS"];
+      					$('#loginModal').modal('hide');
+      					showLoginButton(false, result["NAME"]);
+                //$('#loginButton').replaceWith("<i class='user icon'></icon>");
+      				} else {
+      					//display login error message
+      					console.log(result);
+      				}
+              //todo: error case
               }
             })
           }
         })
+    checkForLoginCookie();
     })
   ;
   </script>
@@ -397,13 +443,13 @@
         <div class="field">
           <div class="ui left icon input">
             <i class="user icon"></i>
-            <input type="text" name="email" placeholder="E-mail address">
+            <input type="text" name="email" placeholder="E-mail address" id="loginEmail">
           </div>
         </div>
         <div class="field">
           <div class="ui left icon input">
             <i class="lock icon"></i>
-            <input type="password" name="password" placeholder="Password">
+            <input type="password" name="password" placeholder="Password" id="loginPassword">
           </div>
         </div>
       <div class="ui error message"></div>
