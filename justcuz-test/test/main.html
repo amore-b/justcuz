@@ -100,9 +100,9 @@
       function drawRow(rowData,labels){
         //$("#catalog").append(row);
         console.log(rowData);
-	console.log(rowData.ITEM_NUM);
+	console.log(rowData.PRICE);
         var row = $("<tr>");
-		row.append($("<td>" + "<a href = 'http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?value=" + rowData.ITEM_NUM + "'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
+		row.append($("<td>" + "<a href = 'http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?inum=" + rowData.ITEM_NUM + "&price=" + rowData.PRICE + "'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
         for (var i=1; i< labels.length; i++) {
           row.append($("<td>" + rowData[labels[i]] + "</td>"));
         }
