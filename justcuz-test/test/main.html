@@ -118,7 +118,7 @@
           $('.ui.right.floated.dropdown').dropdown({
             onChange: function(value) {
 
-              var price = "";
+              //var price = "";
               var type = "";
               var gender = "";
               var color = "";
@@ -129,11 +129,11 @@
                 toshow = "/all";
                 console.log("show all");
               } else {
-                if ( $('#price').is( ":checked" )) {
-                  price = "/price";
-                  console.log("show price");
-                  console.log(price);
-                }
+                // if ( $('#price').is( ":checked" )) {
+                //   price = "/price";
+                //   console.log("show price");
+                //   console.log(price);
+                // }
                 if ( $('#type').is( ":checked" )) {
                   type = "/type";
                   console.log("show type");
@@ -151,7 +151,7 @@
                   console.log("show company_name");
                 }
 
-                toshow = price + type + gender + color + company_name;
+                toshow = type + gender + color + company_name;
               
               }
               console.log(value);
@@ -237,7 +237,7 @@
           //console.log("yup");
           if(!show) {
             console.log("there");
-            $('#loginButton').replaceWith("<i class='user icon'></i>" + name + "<button class='ui black basic button' id='logoutButton'>Log out</button>");
+            $('#loginButton').replaceWith("<i class='user icon'></i>" + name + "<a class='ui button' href='http://www.ugrad.cs.ubc.ca/~n1c0b/test/member.html?value="+ $cid +"'>Profile</a><button class='ui black basic button' id='logoutButton'>Log out</button>");
           } else {
             console.log("here too");
             $('#loginButton').replaceWith("<button class='ui black basic button' id='loginButton'>Log in</button>");
@@ -350,11 +350,11 @@
   <a href = "manager.html#" class="item">Managers Only</a>
 
   <div class="ui text container">
-    <b>First, select which columns to show (Item_Num is always shown):</b>
-    <div class="ui checkbox">
+    <b>First, select which columns to show (Item_Num and Price are always shown):</b>
+<!--     <div class="ui checkbox">
       <input id="price" tabindex="0" class="hidden" type="checkbox">
       <label>Price</label>
-    </div>
+    </div> -->
     <div class="ui checkbox">
       <input id="type" tabindex="0" class="hidden" type="checkbox">
       <label>Type</label>
@@ -427,55 +427,6 @@
           </div>
         </div>
       </div>
-<!-- 
-      <div class="ui text container">
-        <b>Type</b>
-        <div class="ui right floated selection dropdown">
-          <input name="type" type="hidden">
-          <i class="dropdown icon"></i>
-          <div class="default text">Type</div>
-          <div class="menu">
-            <div class="item" data-value="type/all">All</div>
-            <div class="item" data-value="type/jeans">Jeans</div>
-            <div class="item" data-value="type/shirt">Shirts</div>
-            <div class="item" data-value="type/shoes">Shoes</div>
-            <div class="item" data-value="type/purse">Purses</div>
-            <div class="item" data-value="type/sweater">Sweaters</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="ui text container">
-        <b>Gender</b>
-        <div class="ui right floated selection dropdown">
-          <input name="gender" type="hidden">
-          <i class="dropdown icon"></i>
-          <div class="default text">Gender</div>
-          <div class="menu">
-            <div class="item" data-value="gender/all">All</div>
-            <div class="item" data-value="gender/M">Men</div>
-            <div class="item" data-value="gender/W">Women</div>
-            <div class="item" data-value="gender/U">Unisex</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="ui text container">
-        <b>Color</b>
-        <div class="ui right floated selection dropdown">
-          <input name="color" type="hidden">
-          <i class="dropdown icon"></i>
-          <div class="default text">Color</div>
-          <div class="menu">
-            <div class="item" data-value="color/all">All</div>
-            <div class="item" data-value="color/blue">Blue</div>
-            <div class="item" data-value="color/pink">Pink</div>
-            <div class="item" data-value="color/white">White</div>
-            <div class="item" data-value="color/black">Black</div>
-            <div class="item" data-value="color/orange">Orange</div>
-          </div>
-        </div>
-      </div> -->
 
       <button class="ui black basic button" id="loginButton">Log in</button>
 
@@ -566,14 +517,7 @@
         
       </div>
 
-
-    <!--/div-->
-
     </form>
-
-
-
-  
 
   </div>
 
