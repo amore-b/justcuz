@@ -6,28 +6,50 @@ class MerchandiseController extends MyController
         if(isset($request->url_elements[2])) {
 
             $cc = $_SESSION["c"];
+
+            $size = count($request->url_elements);
             $attr = (string)$request->url_elements[2];
             $val = (string)$request->url_elements[3];
+            $showarray = [];
+            $showstring = "item_num";
+
+            if ($size > 4) {
+
+                if ((string)$request->url_elements[4] == 'all') {
+                    $showstring = "*";
+                } else {
+
+                    for ($x = 4; $x <= $size-1; $x++) {
+
+                        $showstring .= ", " . (string)$request->url_elements[$x];
+                        //$showarray[x] = $request->url_elements[x];
+                    } 
+                }
+            } 
+
+            // for ($i=0; $i <= count($showarray); $i++) {
+            //     $showstring = $showstring + ", " + $showarray[i];
+            // }
 
             if ($val == 'all') {
-                    $stid = oci_parse($cc, "SELECT * from merchandise_supplies");
+                    $stid = oci_parse($cc, "SELECT " . $showstring . " from merchandise_supplies");
             } else {
                 switch($attr) {
                     case "type":
                         $item_type = $val;
-                        $stid = oci_parse($cc, "SELECT * from merchandise_supplies where type ='". $item_type. "'");
+                        $stid = oci_parse($cc, "SELECT " . $showstring . " from merchandise_supplies where type ='". $item_type. "'");
                         break;
                     case "gender":
                         $gender = $val;
-                        $stid = oci_parse($cc, "SELECT * from merchandise_supplies where gender ='". $gender. "'");
+                        $stid = oci_parse($cc, "SELECT " . $showstring . " from merchandise_supplies where gender ='". $gender. "'");
                         break;
                     case "color":
                         $color = $val;
-                        $stid = oci_parse($cc, "SELECT * from merchandise_supplies where color ='". $color. "'");
+                        $stid = oci_parse($cc, "SELECT " . $showstring . " from merchandise_supplies where color ='". $color. "'");
                         break;
                     case "item_num":
                         $item_num = $val;
-                        $stid = oci_parse($cc, "SELECT * from merchandise_supplies where item_num ='". $item_num. "'");
+                        $stid = oci_parse($cc, "SELECT " . $showstring . " from merchandise_supplies where item_num ='". $item_num. "'");
                         break;
                     default:
                         break;

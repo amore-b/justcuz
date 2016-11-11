@@ -93,17 +93,16 @@
           console.log("nothing.");
           drawNoResults();
         }
-        //else{console.log("amore broke it");}
+
       }
 	
       // labels is an array containing the attribute names
       function drawRow(rowData,labels){
         //$("#catalog").append(row);
         console.log(rowData);
+	console.log(rowData.ITEM_NUM);
         var row = $("<tr>");
-	       row.append($("<td>" + "<a href = 'http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?value=" + rowData.ITEM_NUM + "'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
-	      //var link = "http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?value=" + rowData.ITEM_NUM;
-      	//$("a").attr("href", link);
+		row.append($("<td>" + "<a href = 'http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?value=" + rowData.ITEM_NUM + "'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
         for (var i=1; i< labels.length; i++) {
           row.append($("<td>" + rowData[labels[i]] + "</td>"));
         }
@@ -118,9 +117,46 @@
       $(function() {
           $('.ui.right.floated.dropdown').dropdown({
             onChange: function(value) {
+
+              var price = "";
+              var type = "";
+              var gender = "";
+              var color = "";
+              var company_name = "";
+              var toshow = "";
+
+              if ( $('#all').is( ":checked" )) {
+                toshow = "/all";
+                console.log("show all");
+              } else {
+                if ( $('#price').is( ":checked" )) {
+                  price = "/price";
+                  console.log("show price");
+                  console.log(price);
+                }
+                if ( $('#type').is( ":checked" )) {
+                  type = "/type";
+                  console.log("show type");
+                }
+                if ( $('#gender').is( ":checked" )) {
+                  gender = "/gender";
+                  console.log("show gender");
+                }
+                if ( $('#color').is( ":checked" )) {
+                  color = "/color";
+                  console.log("show color");
+                }
+                if ( $('#company_name').is( ":checked" )) {
+                  company_name = "/company_name";
+                  console.log("show company_name");
+                }
+
+                toshow = price + type + gender + color + company_name;
+              
+              }
               console.log(value);
               $.ajax({
-                url: "index7.php/merchandise/" + value,
+                url: "index7.php/merchandise/" + value + toshow,
                 success: function(result) {
                     console.log(result);
                     //$('#catalog').html(result);
@@ -313,12 +349,85 @@
   <a href = "employee.html#" class="item">Employees Only</a>
   <a href = "manager.html#" class="item">Managers Only</a>
 
+  <div class="ui text container">
+    <b>First, select which columns to show (Item_Num is always shown):</b>
+    <div class="ui checkbox">
+      <input id="price" tabindex="0" class="hidden" type="checkbox">
+      <label>Price</label>
+    </div>
+    <div class="ui checkbox">
+      <input id="type" tabindex="0" class="hidden" type="checkbox">
+      <label>Type</label>
+    </div>
+    <div class="ui checkbox">
+      <input id="gender" tabindex="0" class="hidden" type="checkbox">
+      <label>Gender</label>
+    </div>
+    <div class="ui checkbox">
+      <input id="color" tabindex="0" class="hidden" type="checkbox">
+      <label>Color</label>
+    </div>
+    <div class="ui checkbox">
+      <input id="company_name" tabindex="0" class="hidden" type="checkbox">
+      <label>Company_Name</label>
+    </div>
+    <div class="ui checkbox">
+      <input id="all" tabindex="0" class="hidden" type="checkbox">
+      <label>All</label>
+    </div>
+  </div>
+
 
   <div class="ui borderless main menu">
     <div class="ui text container">
       <div href="#" class="header item">
         Stuff n' Things
       </div>
+      <div class="ui text container">
+
+        <div class="ui right floated dropdown item">
+        Filter merchandise by: <i class="dropdown icon"></i>
+          <div class="menu">
+            <div class="item">
+              <i class="dropdown icon"></i>
+              Type
+              <div class="menu">
+                <div class="item" data-value="type/all">All</div>
+                <div class="item" data-value="type/jeans">Jeans</div>
+                <div class="item" data-value="type/shirt">Shirts</div>
+                <div class="item" data-value="type/shoes">Shoes</div>
+                <div class="item" data-value="type/purse">Purses</div>
+                <div class="item" data-value="type/sweater">Sweaters</div>
+              </div>
+            </div>
+
+            <div class="item">
+              <i class="dropdown icon"></i>
+              Gender
+              <div class="menu">
+                <div class="item" data-value="gender/all">All</div>
+                <div class="item" data-value="gender/M">Men</div>
+                <div class="item" data-value="gender/W">Women</div>
+                <div class="item" data-value="gender/U">Unisex</div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <i class="dropdown icon"></i>
+              Color
+              <div class="menu">
+                <div class="item" data-value="color/all">All</div>
+                <div class="item" data-value="color/blue">Blue</div>
+                <div class="item" data-value="color/pink">Pink</div>
+                <div class="item" data-value="color/white">White</div>
+                <div class="item" data-value="color/black">Black</div>
+                <div class="item" data-value="color/orange">Orange</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+<!-- 
       <div class="ui text container">
         <b>Type</b>
         <div class="ui right floated selection dropdown">
@@ -366,9 +475,8 @@
             <div class="item" data-value="color/orange">Orange</div>
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <!--/a-->
       <button class="ui black basic button" id="loginButton">Log in</button>
 
     </div>
