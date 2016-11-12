@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <!-- Site Properties -->
-  <title>Stuff 'n Things - Employee View</title>
+  <title>Member Profile Page</title>
 
   <!-- replaced sample page links with CDN from https://cdnjs.com/libraries/-->
 
@@ -33,103 +33,58 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/dropdown.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/visibility.min.js"></script>
   <script>
-  $(document)
-    .ready(function() {
-      // fix main menu to page on passing
-      $('.main.menu').visibility({
-        type: 'fixed'
-      });
-      $('.overlay').visibility({
-        type: 'fixed',
-        offset: 80
-      });
-      // lazy load images
-      $('.image').visibility({
-        type: 'image',
-        transition: 'vertical flip in',
-        duration: 500
-      });
-      // $('.main.menu  .ui.dropdown')
-      //   .dropdown()
-      // ;
-      $('.ui.button').on('click', function() {
-        var cid = $("input:first").val();
-        console.log("clicked ui button");
-        console.log(cid);
-        searchCID(cid);
-      });
 
-      function isNumeric(value) {
-        return /^\d+$/.test(value);
-      }
+    function getParameterByName(name, url) {
+    if (!url) {
+      url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+    var foo = getParameterByName('value');
+    console.log(foo);
 
-      function searchCID(cid) {
-        console.log(cid);
+    $(function(){
+      $.ajax({
+                url: "index7.php/member/" + foo,
+                success: function(result) {
+                  console.log("yup");
+                    console.log(result);
+                    drawPage(result);
+                },
+                error: function() {
+                    console.log("nope on member");
+                }
+              })
+    });
 
-        if (!isNumeric(cid)) {
-          console.log("NOT AN INTEGER");
-          $('#catalog').html("<p>Please enter a valid CID (integer only).</p>");
-        } else {
-          $.ajax({
-            url: "index7.php/order/" + cid,
-            success: function(result) {
-              console.log(result);
-                //$('#catalog').html(result);
-              drawTable(result);
-            },
-            error: function() {
-              console.log("nope");
-            }
-          })
-        }
-      }
-      
-      function drawTable(data, value){
-        console.log("IN DRAW TABLE");
-        // for (var j in data[0]) {
-        //   console.log(data[0][j]);
-        // }
-        console.log(data.length);
+
+function drawPage(data){
+        console.log("IN DRAW PAGE");
 
         if ((data.length != undefined) && (data.length != 0)) {
           var keys = Object.keys(data[0]);
           console.log(keys);
-          var table = $("<table>");
-          table.append($("<tr>"));
+          var page = $("<p>");
           for (var i=0; i<keys.length; i++) {
-            table.append($("<td><b>"+keys[i]+"</b></td>"));
+            page.append($("<br /><b>"+keys[i]+"</b>: "+data[0][keys[i]]+"<br />"));
           }
-          table.append($("</tr>"));
-          for (var i=0; i< data.length; i++){
-            table.append($(drawRow(data[i],keys)));
-          }
-          table.append($("</table>"));
-          $('#catalog').html(table);
+          page.append($("</p>"));
+          $('#catalog').html(page);
         } else {
-          console.log("nothing.");
-          drawNoResults();
+          console.log("memberpage error.");
         }
+
       }
 
-      function drawRow(rowData,labels){
-        //$("#catalog").append(row);
-        console.log(rowData);
-        var row = $("<tr>");
-        for (var i=0; i< labels.length; i++) {
-          row.append($("<td>" + rowData[labels[i]] + "</td>"));
-        }
-        row.append($("</tr>"));
-        return row;
-      }
+    //store the json result of customers in an invisible table so its cid can be used for comparisons in the future
+    //TODO: implement code to handle form submission
 
-      function drawNoResults() {
-          $('#catalog').html("<p>No results found.</p>");
-      }
-
-    })
-  ;
-  </script>
-
+    </script>
   <style type="text/css">
   body {
     background-color: #FFFFFF;
@@ -183,22 +138,18 @@
 <body>
 
   <div class="ui main text container">
-    <h1 class="ui header">Employee View</h1>
+    <h1 class="ui header">Member Profile</h1>
   </div>
-  <a href="main.html#">Go Home</a>
 
 
   <div class="ui borderless main menu">
     <div class="ui text container">
-      Enter a Customer ID to see that customer's order and personal information.
-      
-      <div class="ui action input">
-        <input placeholder="Enter a CID here..." type="text">
-        <button class="ui button">Search</button>
+      <div href="#" class="header item">
+        <img class="logo" src="assets/images/logo.png">
+        Stuff n' Things
       </div>
-    </div>
-
- 
+      <a href="#" class="item">Blog</a>
+      <a href="#" class="item">Articles</a>
     </div>
   </div>
 

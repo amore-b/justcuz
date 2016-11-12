@@ -34,7 +34,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/visibility.min.js"></script>
   <script>
     $(document).ready(function(){
-      document.getElementById('inum').value=getParameterByName('value');
+      document.getElementById('inum').value=getParameterByName('inum');
+      document.getElementById('a').value=getParameterByName('price');
     })
     function getParameterByName(name, url) {
     if (!url) {
@@ -47,32 +48,8 @@
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
-    var foo = getParameterByName('value');
+    var foo = getParameterByName('inum');
     console.log(foo);
-
-    $(function(){
-      $.ajax({
-                url: "index7.php/merchandise/item_num/" + foo,
-                success: function(result) {
-                    console.log(result);
-                },
-                error: function() {
-                    console.log("nope");
-                }
-              })
-    });
-    $(function(){
-      $.ajax({
-                url: "index7.php/customer",
-                success: function(result) {
-                  console.log("yup");
-                    console.log(result);
-                },
-                error: function() {
-                    console.log("nope on customer");
-                }
-              })
-    });
     //store the json result of customers in an invisible table so its cid can be used for comparisons in the future
     //TODO: implement code to handle form submission
 
@@ -151,7 +128,8 @@
     
   </div>
   <div class="customer information">
-    <form action="action_page.php">
+    <form oninput="x.value=parseFloat(a.value)*parseInt(b.value)" action="action_page.php">0
+    <br>
     First and Last Name:<br>
     <input type="text" name="name"><br>
     Email:<br>
@@ -160,6 +138,12 @@
     <input type="text" name="address"><br>
     Item Number:<br>
     <input type="text" id="inum" name="itemnum" value="" readonly><br>
+    Price:<br>
+    <input type="number" id="a" value="" readonly><br>
+    Quantity:<br>
+    <input type="number" name="quantity" id="b" value="1"> <br>
+    Total Price: 
+    <output name="x" for="a b"></output><br>
     Card Number:<br><input type="text" name="cardnumber"><br>
     Card Type:<br>
     <input type="radio" name="cardtype" value="visa"> Visa <br>

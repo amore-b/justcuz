@@ -1,60 +1,15 @@
 <?php
 
-class MerchandiseController extends MyController
+class MemberController extends MyController
 {
     public function getAction($request) {
         if(isset($request->url_elements[2])) {
 
             $cc = $_SESSION["c"];
 
-            $size = count($request->url_elements);
-            $attr = (string)$request->url_elements[2];
-            $val = (string)$request->url_elements[3];
-            $showarray = [];
-            $showstring = "item_num, price";
+            $val = (string)$request->url_elements[2];
 
-            if ($size > 4) {
-
-                if ((string)$request->url_elements[4] == 'all') {
-                    $showstring = "*";
-                } else {
-
-                    for ($x = 4; $x <= $size-1; $x++) {
-
-                        $showstring .= ", " . (string)$request->url_elements[$x];
-                        //$showarray[x] = $request->url_elements[x];
-                    } 
-                }
-            } 
-
-            // for ($i=0; $i <= count($showarray); $i++) {
-            //     $showstring = $showstring + ", " + $showarray[i];
-            // }
-
-            if ($val == 'all') {
-                    $stid = oci_parse($cc, "SELECT " . $showstring . " from merchandise_supplies");
-            } else {
-                switch($attr) {
-                    case "type":
-                        $item_type = $val;
-                        $stid = oci_parse($cc, "SELECT " . $showstring . " from merchandise_supplies where type ='". $item_type. "'");
-                        break;
-                    case "gender":
-                        $gender = $val;
-                        $stid = oci_parse($cc, "SELECT " . $showstring . " from merchandise_supplies where gender ='". $gender. "'");
-                        break;
-                    case "color":
-                        $color = $val;
-                        $stid = oci_parse($cc, "SELECT " . $showstring . " from merchandise_supplies where color ='". $color. "'");
-                        break;
-                    case "item_num":
-                        $item_num = $val;
-                        $stid = oci_parse($cc, "SELECT " . $showstring . " from merchandise_supplies where item_num ='". $item_num. "'");
-                        break;
-                    default:
-                        break;
-                }
-            }
+            $stid = oci_parse($cc, "SELECT * from member, customer where member.cid = customer.cid AND member.cid = " .$val);
             
             //if(isset($request->url_elements[3])) {
                 //what sort of error checking is needed?????
