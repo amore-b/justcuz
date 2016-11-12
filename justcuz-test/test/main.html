@@ -229,11 +229,11 @@
           }
         }
 
-        function showLoginButton(show, name) {
+        function showLoginButton(show, name, cid) {
           //console.log("yup");
           if(!show) {
             console.log("there");
-            $('#loginButton').replaceWith("<div id='userArea'><i class='user icon'></i>" + name + "<a class='ui button' href='http://www.ugrad.cs.ubc.ca/~n1c0b/test/member.html?value="+ $cid +"'>Profile</a><button class='ui black basic button' id='logoutButton'>Log out</button></div>");
+            $('#loginButton').replaceWith("<div id='userArea'><i class='user icon'></i>" + name + "<a class='ui button' href='http://www.ugrad.cs.ubc.ca/~n1c0b/test/member.html?value="+cid +"'>Profile</a><button class='ui black basic button' id='logoutButton'>Log out</button></div>");
           } else {
             console.log("here too");
             $('#userArea').replaceWith("<button class='ui black basic button' id='loginButton'>Log in</button>");
@@ -257,7 +257,7 @@
                 createCookie("justcuz", result["CID"], 1);
                 points = result["POINTS"];
       					$('#loginModal').modal('hide');
-      					showLoginButton(false, result["NAME"]);
+      					showLoginButton(false, result["NAME"], result["CID"]);
                 //$('#loginButton').replaceWith("<i class='user icon'></icon>");
       				} else {
       					//display login error message
