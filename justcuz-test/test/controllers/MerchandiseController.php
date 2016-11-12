@@ -11,7 +11,7 @@ class MerchandiseController extends MyController
             $attr = (string)$request->url_elements[2];
             $val = (string)$request->url_elements[3];
             $showarray = [];
-            $showstring = "item_num";
+            $showstring = "item_num, price";
 
             if ($size > 4) {
 
