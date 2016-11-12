@@ -207,6 +207,7 @@
         function checkForLoginCookie() {
           var cookie = readCookie("justcuz");
           if(cookie) {
+            console.log("checking for login cookie");
             $cid = cookie;
             $.ajax({
               url: "index7.php/users/cid/"+ $cid,
@@ -216,7 +217,7 @@
                 createCookie("justcuz", result["CID"], 1);
                 points = result["POINTS"];
                 console.log(points);
-                showLoginButton(false, result["NAME"]);
+                showLoginButton(false, result["NAME"], result["CID"]);
                 }
               },
               error: function() {
@@ -256,6 +257,7 @@
       					console.log(result["NAME"]);
                 createCookie("justcuz", result["CID"], 1);
                 points = result["POINTS"];
+                console.log(readCookie("justcuz"));
       					$('#loginModal').modal('hide');
       					showLoginButton(false, result["NAME"], result["CID"]);
                 //$('#loginButton').replaceWith("<i class='user icon'></icon>");
