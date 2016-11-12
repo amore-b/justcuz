@@ -22,4 +22,4 @@ function readCookie(name) {
 function eraseCookie(name) {
     createCookie(name,"",-1);
 }
-console.log("testttt");
+///console.log("testttt");
