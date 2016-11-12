@@ -54,26 +54,53 @@
         on: 'hover'
       });
 
-      $(function() {
-          $('.ui.right.floated.dropdown').dropdown({
-            onChange: function(value) {
-              console.log(value);
-              $.ajax({
-                url: "index7.php/merchandise/" + value,
-                success: function(result) {
-                    console.log(result);
-                    $('#catalog').html(result);
-                },
-                error: function() {
-                    console.log("nope");
-                }
-              })
-            }
-          });
-      });
+      function drawTable(data, value){
+        console.log("IN DRAW TABLE");
+        // for (var j in data[0]) {
+        //   console.log(data[0][j]);
+        // }
 
+        if ((data.length != undefined) && (data.length != 0)) {
+          var keys = Object.keys(data[0]);
+          console.log(keys);
+          var table = $("<table>");
+          table.append($("<tr>"));
+          for (var i=0; i<keys.length; i++) {
+            table.append($("<td><b>"+keys[i]+"</b></td>"));
+          }
+          table.append($("</tr>"));
+          for (var i=0; i< data.length; i++){
+            table.append($(drawRow(data[i],keys)));
+          }
+          table.append($("</table>"));
+          table.append($("<br /><p>Filtered by "+ value +"</p>"));
+          $('#catalog').html(table);
+        } else {
+          console.log("nothing.");
+          drawNoResults();
+        }
 
-    })
+      }
+  
+      // labels is an array containing the attribute names
+      function drawRow(rowData,labels){
+        //$("#catalog").append(row);
+        console.log(rowData);
+  console.log(rowData.ITEM_NUM);
+        var row = $("<tr>");
+    row.append($("<td>" + "<a href = 'http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?value=" + rowData.ITEM_NUM + "'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
+        for (var i=1; i< labels.length; i++) {
+          row.append($("<td>" + rowData[labels[i]] + "</td>"));
+        }
+        row.append($("</tr>"));
+        return row;
+      }
+
+      function drawNoResults() {
+          $('#catalog').html("<p>No results found.</p>");
+      }
+        
+      })
   ;
   </script>
 
@@ -137,30 +164,88 @@
 
   <div class="ui borderless main menu">
       
-      <a href="#" class="ui right floated dropdown item">
-        Inventory <i class="dropdown icon"></i>
-        <div class="menu">
-          <div class="item">All</div>
-          <div class="item">Add</div>
-          <div class="item">Delete</div>
-        </div>
-      </a>
-          <a href="#" class="ui right floated dropdown item">
-        Employees <i class="dropdown icon"></i>
-        <div class="menu">
-          <div class="item">All</div>
-          <div class="item">Add</div>
-          <div class="item">Delete</div>
-        </div>
-      </a>
-          <a href="#" class="ui right floated dropdown item">
-        Suppliers <i class="dropdown icon"></i>
-        <div class="menu">
-          <div class="item">All</div>
-          <div class="item">Add</div>
-          <div class="item">Delete</div>
-          </div>
-        </a>
-      </div>
+     <div class="ui action input">
+      <form action="inventory_action.php">
+         <input type="text" name="item" placeholder="item_num">
+         <div class="ui action input">
+         <input type="text" name="size" placeholder="size">
+         <div class="ui action input">
+         <input type="text" name="howmany" placeholder="count">
+         <input type="submit" value="Update Inventory">
+       </form>
+         </div>
+       </div>
+     </div>
+
+          <div class="ui action input">
+            <form action="supplier_action.php">
+           <input type="text" name="company_name" placeholder="company">
+           <div class="ui action input">
+           <input type="text" name="address" placeholder="address">
+             <div class="ui action input">
+             <input type="text" name="phone_num" placeholder="phone">
+               <div class="ui action input">
+               <input type="text" name="eid" placeholder="eid">
+         <input type="submit" value="Add Supplier">
+       </form>
+         </div>
+         </div>
+         </div>
+         </div>
+
+          <div class="ui action input">
+            <form action="employee_action.php">
+           <input type="text" name="employee" placeholder="eid">
+           <div class="ui action input">
+           <input type="text" name="name" placeholder="name">
+             <div class="ui action input">
+             <input type="text" name="addy" placeholder="address">
+             <div class="ui action input">
+             <input type="text" name="phone" placeholder="phone">
+             <input type="submit" value="Add Employee">
+         </form>
+       </div>
+     </div>
+   </div>
+ </div>
+
+         <div class="ui action input">
+          <form action="employee_delete.php">
+           <input type="text" name="empid" placeholder="eid">
+         <input type="submit" value="Delete Employee">
+       </form>
+       </div>
+
+       <div class="ui action input">
+        <form action="merch_action.php">
+           <input type="text" name="item_number" placeholder="item_num">
+           <div class="ui action input">
+           <input type="text" name="price" placeholder="price">
+             <div class="ui action input">
+             <input type="text" name="type" placeholder="type">
+             <div class="ui action input">
+             <input type="text" name="gender" placeholder="gender">
+             <div class="ui action input">
+             <input type="text" name="color" placeholder="color">
+               <div class="ui action input">
+               <input type="text" name="company" placeholder="company">
+         <input type="submit" value="Add Merchandise">
+       </form>
+       </div>
+     </div>
+   </div>
+ </div>
+</div>
+</div>
+</div>
+<form action="interesting_funct_one.php">
+<input type="submit" value="Generate Report">
+</form>
+<form action="interesting_funct_two.php">
+<button class="ui icon button">
+<i class="tree icon"></i>
+</button>
+</form>
+
 </body>
 
