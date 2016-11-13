@@ -32,7 +32,9 @@
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/dimmer.min.css">  
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/form.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/input.min.css">
-
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/card.min.css">
+  <link rel="stylesheet" type="text/css" href-"https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/label.min.css">  
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/transition.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/dropdown.min.js"></script>
@@ -89,6 +91,14 @@
           table.append($("</table>"));
           table.append($("<br /><p>Filtered by "+ value +"</p>"));
           $('#catalog').html(table);
+
+          var cards = $("<div class= 'ui cards'>");
+          for (var j = 0; j < data.length; j++) {
+            cards.append($(drawCard(data[j],keys)));
+          }
+          //close tag
+          cards.append($("</div>"));
+          $('#catalogtest').html(cards);
         } else {
           console.log("nothing.");
           drawNoResults();
@@ -107,6 +117,16 @@
         }
         row.append($("</tr>"));
         return row;
+      }
+
+      function drawCard(cardData, labels) {
+        //console.log(cardData);
+        var card = $("<a class='card' href='orderPage.html?inum=" + cardData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&price="+ cardData.PRICE +"'>");
+        card.append($("<div class='image'><img src='catalog/" + cardData.ITEM_NUM +".jpg'></div>"));
+        card.append($("<div class='header'>" + cardData.ITEM_NUM + "</div>"));
+        card.append($("<div class='content'><div class='meta'>$" + cardData.PRICE + "</div></div></a>"));
+
+        return card;
       }
 
       function drawNoResults() {
@@ -154,7 +174,8 @@
               
               }
               console.log(value);
-              $.ajax({
+              displayMerch(value, toshow);
+              /*$.ajax({
                 url: "index7.php/merchandise/" + value + toshow,
                 success: function(result) {
                     console.log(result);
@@ -164,11 +185,24 @@
                 error: function() {
                     console.log("nope");
                 }
-              })
+              })*/
             }
           });
       });
 
+      function displayMerch(value, toShow) {
+        $.ajax({
+          url: "index7.php/merchandise/" + value + toShow ,
+          success: function(result) {
+              //console.log(result);
+              //$('#catalog').html(result);
+              drawTable(result, value);
+          },
+          error: function() {
+              console.log("nope");
+          }
+        })        
+      }
      
       $('#loginForm')
         .form({
@@ -260,6 +294,7 @@
       					$('#loginModal').modal('hide');
       					showLoginButton(false, result["NAME"]);//, result["CID"]);
                 //$('#loginButton').replaceWith("<i class='user icon'></icon>");
+                displayMerch("type", "/all");
       				} else {
       					//display login error message
       					console.log(result);
@@ -276,6 +311,8 @@
           eraseCookie("justcuz");
           cid = undefined;
           showLoginButton(true);
+          //work-around
+          displayMerch("type", "/all");
         });
 
         $('#userNav').on('click', '#loginButton', function() {
@@ -284,6 +321,7 @@
         });
 
         checkForLoginCookie();
+        displayMerch("type", "/all");
     });
   </script>
 
@@ -355,7 +393,7 @@
   <div class="ui fixed inverted menu">
     <div class="ui container">
       <a href="#" class="header item">
-        <img class="logo" src="assets/images/logo.png">
+        <img class="logo" src="st-2.png">
         Stuff n' Things
       </a>
       <a href="#" class="item">Home</a>
@@ -444,10 +482,11 @@
 
 
   <div class="ui text container" id="catalog"></div>
+  <div class="ui text container" id="catalogtest"></div>
 
   <div class="ui inverted vertical footer segment">
     <div class="ui center aligned container">
-      <img src="assets/images/logo.png" class="ui centered mini image">
+      <img src="st-2.png" class="ui centered mini image">
       <div class="ui horizontal inverted small divided link list">
         <a class="item" href="#">Site Map</a>
         <a class="item" href="#">Contact Us</a>
