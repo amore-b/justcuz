@@ -67,15 +67,8 @@
         .dropdown()
       ;
       
-      // show dropdown on hover
-      // $('.main.menu  .ui.dropdown').dropdown({
-      //   on: 'hover'
-      // });
       function drawTable(data, value){
-        console.log("IN DRAW TABLE");
-        // for (var j in data[0]) {
-        //   console.log(data[0][j]);
-        // }
+        //console.log("IN DRAW TABLE");
 
         if ((data.length != undefined) && (data.length != 0)) {
           var keys = Object.keys(data[0]);
@@ -101,7 +94,7 @@
           cards.append($("</div>"));
           $('#catalogtest').html(cards);
         } else {
-          console.log("nothing.");
+          //console.log("nothing.");
           drawNoResults();
         }
 
@@ -125,7 +118,18 @@
         var card = $("<a class='card' href='orderPage.html?inum=" + cardData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&price="+ cardData.PRICE +"'>");
         card.append($("<div class='image'><img src='catalog/" + cardData.ITEM_NUM +".jpg'></div>"));
         card.append($("<div class='header'>" + cardData.ITEM_NUM + "</div>"));
-        card.append($("<div class='content'><div class='meta'>$" + cardData.PRICE + "</div></div></a>"));
+        
+        var desc = "";
+        if(cardData.GENDER)
+          desc += cardData.GENDER + " ";
+        if(cardData.COLOR)
+          desc += cardData.COLOR + " ";
+        if(cardData.TYPE)
+          desc += cardData.TYPE + " ";        
+        if(cardData.COMPANY_NAME)
+          desc += "from " + cardData.COMPANY_NAME;
+
+        card.append($("<div class='content'><div class='meta'>$" + cardData.PRICE + "</div><div class='description'>" + desc + "</div></div></a>"));
 
         return card;
       }
