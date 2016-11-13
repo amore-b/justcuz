@@ -45,7 +45,7 @@
   <script>
   $(document)
     .ready(function() {
-      var $cid, points = 0;
+      var cid, points = 0;
       // fix main menu to page on passing
       $('.main.menu').visibility({
         type: 'fixed'
@@ -100,9 +100,9 @@
       function drawRow(rowData,labels){
         //$("#catalog").append(row);
         console.log(rowData);
-	console.log(rowData.PRICE);
+	      console.log(rowData.PRICE);
         var row = $("<tr>");
-		row.append($("<td>" + "<a href = 'http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?inum=" + rowData.ITEM_NUM + "&points=" + points + "&price="+ rowData.PRICE +"'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
+		    row.append($("<td>" + "<a href = 'orderPage.html?inum=" + rowData.ITEM_NUM + "&points=" + points + "&price="+ rowData.PRICE +"'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
         for (var i=1; i< labels.length; i++) {
           row.append($("<td>" + rowData[labels[i]] + "</td>"));
         }
@@ -115,7 +115,7 @@
       }
 
       $(function() {
-          $('.ui.right.floated.dropdown').dropdown({
+          $('.ui.simple.dropdown').dropdown({
             onChange: function(value) {
 
               //var price = "";
@@ -195,7 +195,7 @@
                   prompt : 'Please enter your password'
                 },
                 {
-                  type   : 'length[6]',
+                  type   : 'length[6]',//change this
                   prompt : 'Your password must be at least 6 characters'
                 }
               ]
@@ -207,13 +207,14 @@
         function checkForLoginCookie() {
           var cookie = readCookie("justcuz");
           if(cookie) {
-            $cid = cookie;
+            cid = cookie;
             $.ajax({
-              url: "index7.php/users/cid/"+ $cid,
+              url: "index7.php/users/cid/"+ cid,
               success: function(result) {
                 if(result["NAME"]) {
                 console.log(result["NAME"]);
                 createCookie("justcuz", result["CID"], 1);
+                console.log(cid);
                 points = result["POINTS"];
                 console.log(points);
                 showLoginButton(false, result["NAME"]);
@@ -229,14 +230,14 @@
           }
         }
 
-        function showLoginButton(show, name, cid) {
+        function showLoginButton(show, name) {
           //console.log("yup");
           if(!show) {
             console.log("there");
-            $('#loginButton').replaceWith("<div id='userArea'><i class='user icon'></i>" + name + "<a class='ui button' href='http://www.ugrad.cs.ubc.ca/~n1c0b/test/member.html?value="+cid +"'>Profile</a><button class='ui black basic button' id='logoutButton'>Log out</button></div>");
+            $('#loginButton').replaceWith("<div id='userArea'><i class='user icon'></i>" + name + "<a class='ui inverted basic button' href='member.html?value="+cid +"'>Profile</a><button class='ui inverted basic button' id='logoutButton'>Log out</button></div>");
           } else {
             console.log("here too");
-            $('#userArea').replaceWith("<button class='ui black basic button' id='loginButton'>Log in</button>");
+            $('#userArea').replaceWith("<button class='ui inverted basic button' id='loginButton'>Log in</button>");
           }
         }
 
@@ -253,11 +254,12 @@
               data: {"email": email, "password": password},
               success: function(result) {
       				if(result["NAME"]) {
-      					console.log(result["NAME"]);
+      					console.log(result["CID"]);
                 createCookie("justcuz", result["CID"], 1);
                 points = result["POINTS"];
+                cid = readCookie("justcuz");
       					$('#loginModal').modal('hide');
-      					showLoginButton(false, result["NAME"], result["CID"]);
+      					showLoginButton(false, result["NAME"]);//, result["CID"]);
                 //$('#loginButton').replaceWith("<i class='user icon'></icon>");
       				} else {
       					//display login error message
@@ -280,9 +282,9 @@
           console.log("rip");
           $('#loginModal').modal('show');
         });
-    checkForLoginCookie();
-    })
-  ;
+
+        checkForLoginCookie();
+    });
   </script>
 
   <style type="text/css">
@@ -290,7 +292,7 @@
     background-color: #FFFFFF;
   }
   .main.container {
-    margin-top: 2em;
+    margin-top: 7em;
   }
   .main.menu {
     margin-top: 4em;
@@ -350,50 +352,15 @@
 
 </head>
 <body>
-
-  <div class="ui main text container">
-    <h1 class="ui header">Stuff n' Things</h1>
-  </div>
-  <a href = "employee.html#" class="item">Employees Only</a>
-  <a href = "manager.html#" class="item">Managers Only</a>
-
-  <div class="ui text container">
-    <b>First, select which columns to show (Item_Num and Price are always shown):</b>
-<!--     <div class="ui checkbox">
-      <input id="price" tabindex="0" class="hidden" type="checkbox">
-      <label>Price</label>
-    </div> -->
-    <div class="ui checkbox">
-      <input id="type" tabindex="0" class="hidden" type="checkbox">
-      <label>Type</label>
-    </div>
-    <div class="ui checkbox">
-      <input id="gender" tabindex="0" class="hidden" type="checkbox">
-      <label>Gender</label>
-    </div>
-    <div class="ui checkbox">
-      <input id="color" tabindex="0" class="hidden" type="checkbox">
-      <label>Color</label>
-    </div>
-    <div class="ui checkbox">
-      <input id="company_name" tabindex="0" class="hidden" type="checkbox">
-      <label>Company_Name</label>
-    </div>
-    <div class="ui checkbox">
-      <input id="all" tabindex="0" class="hidden" type="checkbox">
-      <label>All</label>
-    </div>
-  </div>
-
-
-  <div class="ui borderless main menu">
-    <div class="ui text container">
-      <div href="#" class="header item">
+  <div class="ui fixed inverted menu">
+    <div class="ui container">
+      <a href="#" class="header item">
+        <img class="logo" src="assets/images/logo.png">
         Stuff n' Things
-      </div>
-      <div class="ui text container">
+      </a>
+      <a href="#" class="item">Home</a>
+      <div class="ui simple dropdown item">
 
-        <div class="ui right floated dropdown item">
         Filter merchandise by: <i class="dropdown icon"></i>
           <div class="menu">
             <div class="item">
@@ -433,52 +400,53 @@
               </div>
             </div>
           </div>
-        </div>
+
       </div>
-
-      <div id="userNav"><button class="ui black basic button" id="loginButton">Log in</button></div>
-
+      <div class="right item">
+        <div id="userNav"><button class="ui inverted basic button" id="loginButton">Log in</button></div>
+      </div>
     </div>
   </div>
+
+  <div class="ui main text container">
+    <h1 class="ui header">Stuff n' Things</h1>
+  </div>
+  <a href = "employee.html#" class="item">Employees Only</a>
+  <a href = "manager.html#" class="item">Managers Only</a>
+
+  <div class="ui text container">
+    <b>First, select which columns to show (Item_Num and Price are always shown):</b>
+<!--     <div class="ui checkbox">
+      <input id="price" tabindex="0" class="hidden" type="checkbox">
+      <label>Price</label>
+    </div> -->
+    <div class="ui checkbox">
+      <input id="type" tabindex="0" class="hidden" type="checkbox">
+      <label>Type</label>
+    </div>
+    <div class="ui checkbox">
+      <input id="gender" tabindex="0" class="hidden" type="checkbox">
+      <label>Gender</label>
+    </div>
+    <div class="ui checkbox">
+      <input id="color" tabindex="0" class="hidden" type="checkbox">
+      <label>Color</label>
+    </div>
+    <div class="ui checkbox">
+      <input id="company_name" tabindex="0" class="hidden" type="checkbox">
+      <label>Company_Name</label>
+    </div>
+    <div class="ui checkbox">
+      <input id="all" tabindex="0" class="hidden" type="checkbox">
+      <label>All</label>
+    </div>
+  </div>
+
 
   <div class="ui text container" id="catalog"></div>
 
   <div class="ui inverted vertical footer segment">
     <div class="ui center aligned container">
-      <div class="ui stackable inverted divided grid">
-        <div class="three wide column">
-          <h4 class="ui inverted header">Group 1</h4>
-          <div class="ui inverted link list">
-            <a href="#" class="item">Link One</a>
-            <a href="#" class="item">Link Two</a>
-            <a href="#" class="item">Link Three</a>
-            <a href="#" class="item">Link Four</a>
-          </div>
-        </div>
-        <div class="three wide column">
-          <h4 class="ui inverted header">Group 2</h4>
-          <div class="ui inverted link list">
-            <a href="#" class="item">Link One</a>
-            <a href="#" class="item">Link Two</a>
-            <a href="#" class="item">Link Three</a>
-            <a href="#" class="item">Link Four</a>
-          </div>
-        </div>
-        <div class="three wide column">
-          <h4 class="ui inverted header">Group 3</h4>
-          <div class="ui inverted link list">
-            <a href="#" class="item">Link One</a>
-            <a href="#" class="item">Link Two</a>
-            <a href="#" class="item">Link Three</a>
-            <a href="#" class="item">Link Four</a>
-          </div>
-        </div>
-        <div class="seven wide column">
-          <h4 class="ui inverted header">Footer Header</h4>
-          <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
-        </div>
-      </div>
-      <div class="ui inverted section divider"></div>
       <img src="assets/images/logo.png" class="ui centered mini image">
       <div class="ui horizontal inverted small divided link list">
         <a class="item" href="#">Site Map</a>
@@ -488,56 +456,48 @@
       </div>
     </div>
   </div>
+
   <div class="ui modal" id="loginModal">
-  <i class="close icon"></i>
-  <div class="header">
-    <div class="ui middle aligned center aligned grid">
-    <div class="column">
-      <h2 class="ui teal header">
-        <div class="content">
-          Log in to your account
-        </div>
-      </h2>
-    </div>
-  </div>
-  </div>
-<div class="ui middle aligned center aligned grid">
-  <div class="column">
-    <form class="ui large form" id="loginForm" > <!--action="index7.php/users/login" method="post"-->
-
-      <!--div class="two wide column"-->
-      <div class="ui stacked segment">
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="user icon"></i>
-            <input type="text" name="email" placeholder="E-mail address" id="loginEmail">
+    <i class="close icon"></i>
+    <div class="header">
+      <div class="ui middle aligned center aligned grid">
+      <div class="column">
+        <h2 class="ui teal header">
+          <div class="content">
+            Log in to your account
           </div>
-        </div>
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="lock icon"></i>
-            <input type="password" name="password" placeholder="Password" id="loginPassword">
-          </div>
-        </div>
-      <div class="ui error message"></div>
-    <!--div class="ui button">Cancel</div-->
-    <div class="ui teal submit button">Log in</div>
-        
+        </h2>
       </div>
-
-    </form>
-
-  </div>
-
-</div>
-
-
+    </div>
+    </div>
+    <div class="ui middle aligned center aligned grid">
+      <div class="column">
+        <form class="ui large form" id="loginForm" > <!--action="index7.php/users/login" method="post"-->
+          <div class="ui stacked segment">
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="user icon"></i>
+                <input type="text" name="email" placeholder="Email address" id="loginEmail">
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input type="password" name="password" placeholder="Password" id="loginPassword">
+              </div>
+            </div>
+            <div class="ui error message"></div>
+            <div class="ui teal submit button">Log in</div>        
+          </div>
+        </form>
+      </div>
+    </div>
     <div class="actions">
       <div class="ui middle aligned center aligned grid">
-      <div class="ui message">
-        New to us? <a href="#">Sign Up</a>
+        <div class="ui message">
+          New to us? <a href="#">Sign Up</a>
+        </div>
       </div>
-    </div>
     </div>
   </div>
 </body>
