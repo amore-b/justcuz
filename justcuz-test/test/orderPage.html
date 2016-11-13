@@ -36,6 +36,13 @@
     $(document).ready(function(){
       document.getElementById('inum').value=getParameterByName('inum');
       document.getElementById('a').value=getParameterByName('price');
+      document.getElementById('pnts').value=getParameterByName('points')/100;
+      document.getElementById('memid').value=getParameterByName('cid');
+      $("#b").change(function(){
+        if(document.getElementById('c').value < 0){
+          document.getElementById('c').value=0;
+        }
+      });
     })
     function getParameterByName(name, url) {
     if (!url) {
@@ -128,8 +135,11 @@
     
   </div>
   <div class="customer information">
-    <form oninput="x.value=parseFloat(a.value)*parseInt(b.value)" action="action_page.php">0
+  <p>Already a member? Screw the form!</p>
+    <form id="numform" oninput="x.value=parseFloat(a.value)*parseInt(b.value) - parseFloat(pnts.value)" action="action_page.php">
     <br>
+    Member ID (if blank fill the form):<br>
+    <input type="text" id="memid" name="memberid" value="" readonly><br>
     First and Last Name:<br>
     <input type="text" name="name"><br>
     Email:<br>
@@ -139,11 +149,13 @@
     Item Number:<br>
     <input type="text" id="inum" name="itemnum" value="" readonly><br>
     Price:<br>
-    <input type="number" id="a" value="" readonly><br>
+    <input type="number" name="price" id="a" value="" readonly><br>
     Quantity:<br>
-    <input type="number" name="quantity" id="b" value="1"> <br>
+    <input type="number" name="quantity" id="b" value="0" min="0"> <br>
+    Points (Dollar Value):<br>
+    <input type="number" name="points" id="pnts" value="" readonly><br>
     Total Price: 
-    <output name="x" for="a b"></output><br>
+    <output id="c" name="x" min="0" for="price quantity points"></output><br>
     Card Number:<br><input type="text" name="cardnumber"><br>
     Card Type:<br>
     <input type="radio" name="cardtype" value="visa"> Visa <br>

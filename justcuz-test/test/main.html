@@ -100,9 +100,8 @@
       function drawRow(rowData,labels){
         //$("#catalog").append(row);
         console.log(rowData);
-	console.log(rowData.PRICE);
         var row = $("<tr>");
-		row.append($("<td>" + "<a href = 'http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?inum=" + rowData.ITEM_NUM + "&points=" + points + "&price="+ rowData.PRICE +"'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
+		row.append($("<td>" + "<a href = 'http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/orderPage.html?inum=" + rowData.ITEM_NUM + "&points=" + points + "&cid="+ $cid + "&price="+ rowData.PRICE +"'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
         for (var i=1; i< labels.length; i++) {
           row.append($("<td>" + rowData[labels[i]] + "</td>"));
         }
@@ -234,7 +233,7 @@
           //console.log("yup");
           if(!show) {
             console.log("there");
-            $('#loginButton').replaceWith("<div id='userArea'><i class='user icon'></i>" + name + "<a class='ui button' href='http://www.ugrad.cs.ubc.ca/~n1c0b/test/member.html?value="+cid +"'>Profile</a><button class='ui black basic button' id='logoutButton'>Log out</button></div>");
+            $('#loginButton').replaceWith("<div id='userArea'><i class='user icon'></i>" + name + "<a class='ui button' href='http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/member.html?value="+cid +"'>Profile</a><button class='ui black basic button' id='logoutButton'>Log out</button></div>");
           } else {
             console.log("here too");
             $('#userArea').replaceWith("<button class='ui black basic button' id='loginButton'>Log in</button>");
