@@ -17,7 +17,7 @@ $st1=oci_parse($c, $sql);
 oci_execute($st1);
 
 //Execute the commented out code if you wanna check the result
-/*
+
 print "<table border='1'>\n";
 while ($row = oci_fetch_array($st1, OCI_ASSOC+OCI_RETURN_NULLS)) {
     print "<tr>\n";
@@ -27,7 +27,7 @@ while ($row = oci_fetch_array($st1, OCI_ASSOC+OCI_RETURN_NULLS)) {
     print "</tr>\n";
 }
 print "</table>\n";
-*/
+
 oci_free_statement($st);
 oci_free_statement($st1);
 oci_close($c);

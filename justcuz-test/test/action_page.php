@@ -156,6 +156,11 @@ $std=oci_parse($c, $sql1);
 oci_execute($std);
 oci_free_statement($st);
 //insert new order in order_delivers_buys table NOT FUNCTIONAL
+echo "order number: " . $ordernum;
+echo " item number: " . $inum;
+echo " employee id: " . $eid;
+echo " cust id: " . $cid;
+echo " quantity: " . $quantity;
 
 $sql2 = "INSERT INTO order_delivers_buys VALUES ('$ordernum', '$inum', '$eid', '$cid', sysdate, '$quantity')";
 $std1=oci_parse($c, $sql2);
