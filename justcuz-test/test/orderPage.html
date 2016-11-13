@@ -27,6 +27,8 @@
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/dropdown.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/icon.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/transition.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/form.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/button.min.css">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/transition.min.js"></script>
@@ -36,6 +38,24 @@
     $(document).ready(function(){
       document.getElementById('inum').value=getParameterByName('inum');
       document.getElementById('a').value=getParameterByName('price');
+      document.getElementById('pnts').value=getParameterByName('points')/100;
+      document.getElementById('memid').value=getParameterByName('cid');
+
+      if(document.getElementById('memid').value!="undefined"){
+      document.getElementById('memName').value=getParameterByName('memName');
+      document.getElementById('em').value=getParameterByName('email');
+      document.getElementById('addy').value=getParameterByName('addy');
+      document.getElementById('card').value=getParameterByName('cardNum');
+      document.getElementById('ctype').value=getParameterByName('cardType');}
+      $("#b").change(function(){
+        if(document.getElementById('c').value < 0){
+          document.getElementById('c').value=0;
+        }
+      });
+
+      $('.ui.dropdown')
+        .dropdown()
+      ;
     })
     function getParameterByName(name, url) {
     if (!url) {
@@ -110,47 +130,73 @@
     <h1 class="ui header">Customer Order Form</h1>
   </div>
 
-
-  <div class="ui borderless main menu">
-    <div class="ui text container">
-      <div href="#" class="header item">
-        <img class="logo" src="assets/images/logo.png">
-        Stuff n' Things
-      </div>
-      <a href="#" class="item">Blog</a>
-      <a href="#" class="item">Articles</a>
-
-      <!-- TODO: we need labels for these drop-down boxes -->
- 
-    </div>
-  </div>
+<div class="ui text container" id="catalog">
   <div class="item_info">
     
   </div>
   <div class="customer information">
-    <form oninput="x.value=parseFloat(a.value)*parseInt(b.value)" action="action_page.php">0
-    <br>
-    First and Last Name:<br>
-    <input type="text" name="name"><br>
-    Email:<br>
-    <input type="text" name="email"><br>
-    Address (Number, Street, City, Province, Postal Code):<br>
-    <input type="text" name="address"><br>
-    Item Number:<br>
-    <input type="text" id="inum" name="itemnum" value="" readonly><br>
-    Price:<br>
-    <input type="number" id="a" value="" readonly><br>
-    Quantity:<br>
-    <input type="number" name="quantity" id="b" value="1"> <br>
-    Total Price: 
-    <output name="x" for="a b"></output><br>
-    Card Number:<br><input type="text" name="cardnumber"><br>
-    Card Type:<br>
-    <input type="radio" name="cardtype" value="visa"> Visa <br>
-    <input type="radio" name="cardtype" value="mastercard"> MasterCard <br>
-    <input type="radio" name="cardtype" value="amex"> Amex <br>
-    <br>
-    <input type="submit" value="Submit">
+    <!--form id="numform" oninput="x.value=parseFloat(a.value)*parseInt(b.value) - parseFloat(pnts.value)" action="action_page.php"-->
+    <form id="numform" class="ui form" oninput="x.value=parseFloat(a.value)*parseInt(b.value) - parseFloat(pnts.value)" action="action_page.php">
+    <div class="field">
+      <input type="hidden" id="memid" name="memberid" value="" readonly>
+    </div>
+    <div class="field">
+      <label>Full Name</label>
+      <input type="text" id="memName" name="name" placeholder="First and Last Name">
+    </div>
+    <div class="field">
+      <label>Email</label>
+      <input type="text" id="em" name="email" placeholder="Email address">
+    </div>
+    <div class="field">
+      <label>Address (Number, Street, City, Province, Postal Code)</label>
+      <input type="text" id="addy" name="address" placeholder="Address">
+    </div>
+    <div class="field">
+      <label>Item Number</label>
+      <input type="text" id="inum" name="itemnum" value="" readonly>
+    </div>    
+    <div class="field">
+      <label>Price</label>
+      <input type="number" name="price" id="a" value="" readonly>
+    </div> 
+    <div class="field">
+      <label>Quantity</label>
+      <input type="number" name="quantity" id="b" value="0" min="0">
+    </div> 
+    <div class="field">
+      <label>Points (Dollar Value)</label>
+      <input type="number" name="points" id="pnts" value="" readonly>
+    </div> 
+    <div class="field">
+      <label>Total Price</label>
+      <output id="c" name="x" min="0" for="price quantity points"></output>
+    </div> 
+    <div class="field">
+      <label>Card Number</label>
+      <input type="text" id="card" name="cardnumber" placeholder="Card #">
+    </div>
+    <div class="field">
+      <label>Card Type</label>
+      <div class="ui selection dropdown">
+        <input type="hidden" id="ctype" name="cardtype">
+        <div class="default text">Type</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item" data-value="visa">
+            <i class="visa icon"></i>
+          </div>
+          <div class="item" data-value="amex">
+            <i class="amex icon"></i>
+          </div>
+          <div class="item" data-value="dmastercard">
+            <i class="mastercard icon"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--input type="submit" value="Submit"-->
+    <button class="ui basic black button" type="submit">Submit</button>
     </form>
     <!--Quantity:<br>
     <form oninput="x.value=parseInt(a.value)*parseFloat(b.value)">
@@ -162,44 +208,10 @@
     </form>-->
   </div>
 
-  <div class="ui text container" id="catalog"></div>
+</div>
 
   <div class="ui inverted vertical footer segment">
     <div class="ui center aligned container">
-      <div class="ui stackable inverted divided grid">
-        <div class="three wide column">
-          <h4 class="ui inverted header">Group 1</h4>
-          <div class="ui inverted link list">
-            <a href="#" class="item">Link One</a>
-            <a href="#" class="item">Link Two</a>
-            <a href="#" class="item">Link Three</a>
-            <a href="#" class="item">Link Four</a>
-          </div>
-        </div>
-        <div class="three wide column">
-          <h4 class="ui inverted header">Group 2</h4>
-          <div class="ui inverted link list">
-            <a href="#" class="item">Link One</a>
-            <a href="#" class="item">Link Two</a>
-            <a href="#" class="item">Link Three</a>
-            <a href="#" class="item">Link Four</a>
-          </div>
-        </div>
-        <div class="three wide column">
-          <h4 class="ui inverted header">Group 3</h4>
-          <div class="ui inverted link list">
-            <a href="#" class="item">Link One</a>
-            <a href="#" class="item">Link Two</a>
-            <a href="#" class="item">Link Three</a>
-            <a href="#" class="item">Link Four</a>
-          </div>
-        </div>
-        <div class="seven wide column">
-          <h4 class="ui inverted header">Footer Header</h4>
-          <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
-        </div>
-      </div>
-      <div class="ui inverted section divider"></div>
       <img src="assets/images/logo.png" class="ui centered mini image">
       <div class="ui horizontal inverted small divided link list">
         <a class="item" href="#">Site Map</a>
