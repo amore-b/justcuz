@@ -47,7 +47,8 @@
   <script>
   $(document)
     .ready(function() {
-      var cid, points = 0;
+      var cid, points, cardNum = 0;
+      var memName, addy, cardType, email = "";
       // fix main menu to page on passing
       $('.main.menu').visibility({
         type: 'fixed'
@@ -111,7 +112,7 @@
         //$("#catalog").append(row);
         console.log(rowData);
         var row = $("<tr>");
-		    row.append($("<td>" + "<a href = 'orderPage.html?inum=" + rowData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&price="+ rowData.PRICE +"'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
+		    row.append($("<td>" + "<a href = 'orderPage.html?inum=" + rowData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&memName=" + memName +"&email=" + email +"&addy=" + addy + "&cardNum=" + cardNum + "&cardType=" + cardType +"&price="+ rowData.PRICE +"'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
         for (var i=1; i< labels.length; i++) {
           row.append($("<td>" + rowData[labels[i]] + "</td>"));
         }
@@ -245,7 +246,16 @@
               url: "index7.php/users/cid/"+ cid,
               success: function(result) {
                 if(result["NAME"]) {
+                memName = result["NAME"];
+                addy = result["ADDRESS"];
+                email = result["EMAIL"];
+                cardNum = result["CARD_NUM"];
+                cardType = result["CARD_TYPE"];
                 console.log(result["NAME"]);
+                console.log(result["ADDRESS"]);
+                console.log(result["EMAIL"]);
+                console.log(result["CARD_NUM"]);
+                console.log(result["CARD_TYPE"]);
                 createCookie("justcuz", result["CID"], 1);
                 console.log(cid);
                 points = result["POINTS"];

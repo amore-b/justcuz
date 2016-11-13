@@ -40,6 +40,13 @@
       document.getElementById('a').value=getParameterByName('price');
       document.getElementById('pnts').value=getParameterByName('points')/100;
       document.getElementById('memid').value=getParameterByName('cid');
+
+      if(document.getElementById('memid').value!="undefined"){
+      document.getElementById('memName').value=getParameterByName('memName');
+      document.getElementById('em').value=getParameterByName('email');
+      document.getElementById('addy').value=getParameterByName('addy');
+      document.getElementById('card').value=getParameterByName('cardNum');
+      document.getElementById('ctype').value=getParameterByName('cardType');}
       $("#b").change(function(){
         if(document.getElementById('c').value < 0){
           document.getElementById('c').value=0;
@@ -128,24 +135,22 @@
     
   </div>
   <div class="customer information">
-  <p>Already a member? Screw the form!</p>
     <!--form id="numform" oninput="x.value=parseFloat(a.value)*parseInt(b.value) - parseFloat(pnts.value)" action="action_page.php"-->
     <form id="numform" class="ui form" oninput="x.value=parseFloat(a.value)*parseInt(b.value) - parseFloat(pnts.value)" action="action_page.php">
     <div class="field">
-      <label>Member ID (if blank fill the form)</label>
-      <input type="text" id="memid" name="memberid" value="" readonly>
+      <input type="hidden" id="memid" name="memberid" value="" readonly>
     </div>
     <div class="field">
       <label>Full Name</label>
-      <input type="text" name="name" placeholder="First and Last Name">
+      <input type="text" id="memName" name="name" placeholder="First and Last Name">
     </div>
     <div class="field">
       <label>Email</label>
-      <input type="text" name="email" placeholder="Email address">
+      <input type="text" id="em" name="email" placeholder="Email address">
     </div>
     <div class="field">
       <label>Address (Number, Street, City, Province, Postal Code)</label>
-      <input type="text" name="address" placeholder="Address">
+      <input type="text" id="addy" name="address" placeholder="Address">
     </div>
     <div class="field">
       <label>Item Number</label>
@@ -169,26 +174,23 @@
     </div> 
     <div class="field">
       <label>Card Number</label>
-      <input type="text" name="cardnumber" placeholder="Card #">
+      <input type="text" id="card" name="cardnumber" placeholder="Card #">
     </div>
     <div class="field">
       <label>Card Type</label>
       <div class="ui selection dropdown">
-        <input type="hidden" name="cardtype">
+        <input type="hidden" id="ctype" name="cardtype">
         <div class="default text">Type</div>
         <i class="dropdown icon"></i>
         <div class="menu">
           <div class="item" data-value="visa">
             <i class="visa icon"></i>
-            Visa
           </div>
           <div class="item" data-value="amex">
             <i class="amex icon"></i>
-            American Express
           </div>
           <div class="item" data-value="dmastercard">
             <i class="mastercard icon"></i>
-            Mastercard
           </div>
         </div>
       </div>
