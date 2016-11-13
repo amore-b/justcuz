@@ -38,6 +38,13 @@
     $(document).ready(function(){
       document.getElementById('inum').value=getParameterByName('inum');
       document.getElementById('a').value=getParameterByName('price');
+      document.getElementById('pnts').value=getParameterByName('points')/100;
+      document.getElementById('memid').value=getParameterByName('cid');
+      $("#b").change(function(){
+        if(document.getElementById('c').value < 0){
+          document.getElementById('c').value=0;
+        }
+      });
 
       $('.ui.dropdown')
         .dropdown()
@@ -121,7 +128,13 @@
     
   </div>
   <div class="customer information">
-    <form class="ui form" oninput="x.value=parseFloat(a.value)*parseInt(b.value)" action="action_page.php">0
+  <p>Already a member? Screw the form!</p>
+    <!--form id="numform" oninput="x.value=parseFloat(a.value)*parseInt(b.value) - parseFloat(pnts.value)" action="action_page.php"-->
+    <form id="numform" class="ui form" oninput="x.value=parseFloat(a.value)*parseInt(b.value) - parseFloat(pnts.value)" action="action_page.php">
+    <div class="field">
+      <label>Member ID (if blank fill the form)</label>
+      <input type="text" id="memid" name="memberid" value="" readonly>
+    </div>
     <div class="field">
       <label>Full Name</label>
       <input type="text" name="name" placeholder="First and Last Name">
@@ -140,15 +153,19 @@
     </div>    
     <div class="field">
       <label>Price</label>
-      <input type="number" id="a" value="" readonly>
+      <input type="number" name="price" id="a" value="" readonly>
     </div> 
     <div class="field">
       <label>Quantity</label>
-      <input type="number" name="quantity" id="b" value="1">
+      <input type="number" name="quantity" id="b" value="0" min="0">
+    </div> 
+    <div class="field">
+      <label>Points (Dollar Value)</label>
+      <input type="number" name="points" id="pnts" value="" readonly>
     </div> 
     <div class="field">
       <label>Total Price</label>
-      <output name="x" for="a b"></output>
+      <output id="c" name="x" min="0" for="price quantity points"></output>
     </div> 
     <div class="field">
       <label>Card Number</label>

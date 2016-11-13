@@ -100,9 +100,8 @@
       function drawRow(rowData,labels){
         //$("#catalog").append(row);
         console.log(rowData);
-	      console.log(rowData.PRICE);
         var row = $("<tr>");
-		    row.append($("<td>" + "<a href = 'orderPage.html?inum=" + rowData.ITEM_NUM + "&points=" + points + "&price="+ rowData.PRICE +"'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
+		    row.append($("<td>" + "<a href = 'orderPage.html?inum=" + rowData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&price="+ rowData.PRICE +"'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
         for (var i=1; i< labels.length; i++) {
           row.append($("<td>" + rowData[labels[i]] + "</td>"));
         }
@@ -217,7 +216,7 @@
                 console.log(cid);
                 points = result["POINTS"];
                 console.log(points);
-                showLoginButton(false, result["NAME"]);
+                showLoginButton(false, result["NAME"], result["CID"]);
                 }
               },
               error: function() {
