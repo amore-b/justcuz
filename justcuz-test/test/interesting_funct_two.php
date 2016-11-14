@@ -1,7 +1,7 @@
 <html> 
 <?php 
 if ($c=OCILogon("ora_m3c9", "a39296132", "dbhost.ugrad.cs.ubc.ca:1522/ug")) { 
-  echo "Successfully connected to Oracle.\n"; 
+  echo "Merry Christmas!\n"; 
 } else { 
   $err = OCIError(); 
   echo "Oracle Connect Error " . $err['message']; 
@@ -27,8 +27,9 @@ if(!$r){
 	echo "ramz1";
 }
 //Execute the commented out code if you wanna check the result
-
+echo "<table border='1'>\n";
 while ($row = oci_fetch_array($st, OCI_ASSOC+OCI_RETURN_NULLS)) {
+    echo "<tr>\n";
     foreach ($row as $item){
     	$sql1 = "UPDATE member set points = points + 10000 where cid ='". $item. "'";
 		$st1=oci_parse($c, $sql1);
@@ -39,10 +40,15 @@ while ($row = oci_fetch_array($st, OCI_ASSOC+OCI_RETURN_NULLS)) {
 		if(!$r1){
 			echo "ram1";
 		}
-    }
+	echo "	<td>" . ($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;") . "</td>\n";
+	}
 }
+	echo "</table>\n";
+
+
 
 oci_free_statement($st);
+oci_free_statement($st1);
 oci_close($c);
 ?> 
 </html>
