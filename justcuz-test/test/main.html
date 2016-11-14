@@ -44,7 +44,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/form.min.js"></script>  
   <script src="client.js"></script>
 
-  <script>
+  <script type="text/javascript">
   $(document)
     .ready(function() {
       var cid, points, cardNum = 0;
@@ -195,7 +195,7 @@
           });
       });
 
-      function displayMerch(value, toShow) {
+      function displayMerch (value, toShow) {
         $.ajax({
           url: "index7.php/merchandise/" + value + toShow ,
           success: function(result) {
@@ -451,6 +451,24 @@
                 <div class="item" data-value="color/orange">Orange</div>
               </div>
             </div>
+
+            <div class="item">
+              <i class="dropdown icon"></i>
+              U Loaded?
+              <div class="menu">
+                <div class="item" data-value="rich/meh">Most Expensive Item</div>
+              </div>
+            </div>
+
+            <div class="item" data-value="broke/meh">
+              <i class="dropdown icon"></i>
+              Student?
+              <div class="menu">
+                <div class="item" data-value="broke/meh">Cheapest Item</div>
+              </div>
+              </div>
+            </div>
+
           </div>
 
       </div>
@@ -467,6 +485,7 @@
   <a href = "manager.html#" class="item">Managers Only</a>
 
   <div class="ui text container">
+
     <b>First, select which columns to show (Item_Num and Price are always shown):</b>
 <!--     <div class="ui checkbox">
       <input id="price" tabindex="0" class="hidden" type="checkbox">

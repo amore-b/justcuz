@@ -51,6 +51,12 @@ class MerchandiseController extends MyController
                         $item_num = $val;
                         $stid = oci_parse($cc, "SELECT " . $showstring . " from merchandise_supplies where item_num ='". $item_num. "'");
                         break;
+                    case "rich";
+                        $stid = oci_parse($cc, "SELECT * from merchandise_supplies where price=(select MAX(price) from merchandise_supplies)");
+                        break;
+                    case "broke";
+                        $stid = oci_parse($cc, "SELECT * from merchandise_supplies where price=(select MIN(price) from merchandise_supplies)");
+                        break;
                     default:
                         break;
                 }
