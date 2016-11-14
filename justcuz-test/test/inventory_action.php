@@ -35,7 +35,8 @@ while ($row1 = oci_fetch_array($std, OCI_ASSOC+OCI_RETURN_NULLS)) {
 oci_free_statement($std);
 
 if(!$exists){
-	echo "Item does not exist in inventory. Please re-specify item.";
+	echo "Item does not exist in inventory. Please re-specify item. Redirecting...";
+	header( "refresh:3;url=http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/manager.html" );
 	die;
 }
 
@@ -57,7 +58,8 @@ while ($row2 = oci_fetch_array($stz, OCI_ASSOC+OCI_RETURN_NULLS)) {
 oci_free_statement($stz);
 
 if(!$exists1){
-	echo "Size does not exist for the item. Please re-specify size.";
+	echo "Size does not exist for the item. Please re-specify size. Redirecting...";
+	header( "refresh:3;url=http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/manager.html" );
 	die;
 }
 
