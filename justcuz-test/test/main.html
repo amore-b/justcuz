@@ -115,7 +115,7 @@
 
       function drawCard(cardData, labels) {
         //console.log(cardData);
-        var card = $("<a class='card' href='orderPage.html?inum=" + cardData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&price="+ cardData.PRICE +"'>");
+        var card = $("<a class='card' href='orderPage.html?inum=" + cardData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&memName=" + memName +"&email=" + email +"&addy=" + addy + "&cardNum=" + cardNum + "&cardType=" + cardType +"&price="+ cardData.PRICE  +"'>");
         card.append($("<div class='image'><img src='catalog/" + cardData.ITEM_NUM +".jpg'></div>"));
         card.append($("<div class='header'>" + cardData.ITEM_NUM + "</div>"));
         
