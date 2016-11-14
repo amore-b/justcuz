@@ -13,9 +13,59 @@ $item = $_GET["item"];
 $size = $_GET["size"];
 $quantity = $_GET["howmany"];
 
-$sql1 = "UPDATE inventory_tracks SET count = '$quantity' WHERE item_num = '$item' AND size_label = '$size'";
+if($item=="" || $size=="" || $quantity==""){
+	echo "Invalid inventory update. Please specify all fields (redirecting...).";
+	header( "refresh:3;url=http://www.ugrad.cs.ubc.ca/~m3c9/temp/justcuz/justcuz-test/test/manager.html" );
+	die;
+}
+//need to check db if item_num exists in inventory
+$sql = "select item_num from inventory_tracks";
+$std = oci_parse($c, $sql);
+oci_execute($std);
+
+$exists=False;
+while ($row1 = oci_fetch_array($std, OCI_ASSOC+OCI_RETURN_NULLS)) {
+    echo "<tr>\n";
+    foreach ($row1 as $itemdb) {
+        if($item==$itemdb){
+        	$exists=True;
+        }
+    }
+}
+oci_free_statement($std);
+
+if(!$exists){
+	echo "Item does not exist in inventory. Please re-specify item.";
+	die;
+}
+
+//need to check db if size exists in inventory
+$sq = "SELECT size_label from inventory_tracks WHERE item_num = '$item'";
+$stz = oci_parse($c, $sq);
+if(!oci_execute($stz)){
+	echo "wtf";
+}
+$exists1=False;
+while ($row2 = oci_fetch_array($stz, OCI_ASSOC+OCI_RETURN_NULLS)) {
+    echo "<tr>\n";
+    foreach ($row2 as $itemsize) {
+        if($size . " "==$itemsize){
+        	$exists1=True;
+        }
+    }
+}
+oci_free_statement($stz);
+
+if(!$exists1){
+	echo "Size does not exist for the item. Please re-specify size.";
+	die;
+}
+
+$sql1 = "UPDATE inventory_tracks SET count = count + '$quantity' WHERE item_num = '$item' AND size_label = '$size'";
 $st = oci_parse($c, $sql1);
-oci_execute($st);
+if(!oci_execute($st)){
+	echo "Invalid inventory update. Please re-specify item";	//type checking (i.e. quantity)
+}
 oci_free_statement($st);
 
 $sql2 = "SELECT * FROM inventory_tracks WHERE item_num = '$item'";
