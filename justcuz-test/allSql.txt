@@ -1,0 +1,74 @@
+action_page.php
+----------
+SELECT count FROM inventory_tracks WHERE item_num ='".$inum. "'
+SELECT order_num FROM order_delivers_buys
+SELECT cid FROM customer
+INSERT INTO customer(cid,name,email,address,card_num,card_type) VALUES('$cid', '$cname', '$email', '$address', '$cardnum', '$cardtype')";
+UPDATE member SET points = '$newpoints' WHERE cid ='". $cid. "
+UPDATE inventory_tracks SET count = count - '$quantity' WHERE item_num ='". $inum. "'
+INSERT INTO order_delivers_buys VALUES ('$ordernum', '$inum', '$eid', '$cid', sysdate, '$quantity')
+
+employee_action.php
+-----------
+INSERT INTO employee(eid, name, address, phone_num, hire_date) VALUES ('$eid' ,'$name' ,'$addy' ,'$phone', sysdate)";
+SELECT * FROM employee
+
+employee_delete.php
+-----------
+DELETE FROM employee WHERE eid = '$eid'
+SELECT * FROM employee
+
+interesting_funct_one.php
+------------
+CREATE VIEW topfive AS item_num, count(*) AS total_sales FROM order_delivers_buys GROUP BY item_num order by total_sales desc";
+SELECT company_name from merchandise_supplies where item_num in (sel    ect item_num from topfive where rownum <=5)";
+
+interesting_funct_two.php
+------------
+SELECT m.cid FROM member m where not exists (select * from merchandise_supplies ms WHERE ms.type='jeans' AND NOT EXISTS (SELECT o.item_num FROM order_delivers_buys o WHERE ms.item_num=o.item_num AND ms.type='jeans' AND o cid=m.cid))
+UPDATE member SET points = points + 10000 WHERE cid ='". $item. "'";
+
+inventory_action.php
+-------------
+SELECT item_num FROM inventory_tracks
+SELECT size_label FROM inventory_tracks WHERE item_num = '$item'";
+UPDATE inventory_tracks SET count = count + '$quantity' WHERE item_num = '$item' AND size_label ='$size'"
+SELECT * FROM inventory_tracks WHERE item_num = '$item'";
+
+merch_action.php
+------------
+INSERT INTO merchandise_supplies(item_num, price, type, gender, color, company_name) VALUES ('$item' ,'$price' ,'$type' ,'$gender', '$color', '$company')";
+SELECT * FROM merchandise_supplies
+
+supplier_action.php
+------------
+INSERT INTO supplier_adds(company_name, address, phone_num, eid) VALUES ('$company', '$address', '$phone', '$eid')";
+SELECT * FROM supplier_adds
+
+OrderController.php
+------------
+SELECT * FROM order_delivers_buys, customer WHERE order_delivers_buys.cid = customer.cid AND order_delivers_buys.cid =".$cid);
+
+CustomerController.php
+------------
+SELECT * FROM customer
+
+MemberController.php
+-------------
+SELECT * FROM member, customer WHERE member.cid = customer.cid AND member.cid = " .$val
+
+MerchandiseController.php
+------------
+SELECT " . $showstring . " FROM merchandise_supplies
+SELECT " . $showstring . " FROM merchandise_supplies WHERE type ='". $item_type. "'")
+"SELECT " . $showstring . " FROM merchandise_supplies WHERE gender ='". $gender. "'")
+SELECT " . $showstring . " FROM merchandise_supplies WHERE color ='". $color. "'")
+SELECT " . $showstring . " FROM merchandise_supplies WHERE item_num ='". $item_num. "'")
+SELECT * FROM merchandise_supplies WHERE price=(SELECT MAX(price) FROM merchandise_supplies)")
+SELECT * FROM merchandise_supplies WHERE price=(SELECT MIN(price) FROM merchandise_supplies)")
+
+UsersController.php
+-------------
+SELECT * FROM customer c, member m WHERE c.cid = m.cid AND m.password ='". $password. "' AND c.email = '". $email. "'"
+SELECT * FROM customer c, member m WHERE c.cid = m.cid AND c.cid='" . $cid. "'
+SELECT * FROM customer c, member m WHERE c.cid = m.cid AND m.password ='". $password. "'"
