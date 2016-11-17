@@ -47,8 +47,8 @@
   <script type="text/javascript">
   $(document)
     .ready(function() {
-      var cid, points, cardNum = 0;
-      var memName, addy, cardType, email = "";
+      var cid, points, userType = 0, cardNum = 0;
+      var memName, addy, cardType, emailad = "";
       // fix main menu to page on passing
       $('.main.menu').visibility({
         type: 'fixed'
@@ -105,7 +105,7 @@
         //$("#catalog").append(row);
         console.log(rowData);
         var row = $("<tr>");
-		    row.append($("<td>" + "<a href = 'orderPage.html?inum=" + rowData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&memName=" + memName +"&email=" + email +"&addy=" + addy + "&cardNum=" + cardNum + "&cardType=" + cardType +"&price="+ rowData.PRICE +"'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
+		    row.append($("<td>" + "<a href = 'orderPage.html?inum=" + rowData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&memName=" + memName +"&email=" + emailad +"&addy=" + addy + "&cardNum=" + cardNum + "&cardType=" + cardType +"&price="+ rowData.PRICE +"'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
         for (var i=1; i< labels.length; i++) {
           row.append($("<td>" + rowData[labels[i]] + "</td>"));
         }
@@ -115,7 +115,7 @@
 
       function drawCard(cardData, labels) {
         //console.log(cardData);
-        var card = $("<a class='card' href='orderPage.html?inum=" + cardData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&memName=" + memName +"&email=" + email +"&addy=" + addy + "&cardNum=" + cardNum + "&cardType=" + cardType +"&price="+ cardData.PRICE  +"'>");
+        var card = $("<a class='card' href='orderPage.html?inum=" + cardData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&memName=" + memName +"&email=" + emailad +"&addy=" + addy + "&cardNum=" + cardNum + "&cardType=" + cardType +"&price="+ cardData.PRICE  +"'>");
         card.append($("<div class='image'><img src='catalog/" + cardData.ITEM_NUM +".jpg'></div>"));
         card.append($("<div class='header'>" + cardData.ITEM_NUM + "</div>"));
         
@@ -246,26 +246,41 @@
           var cookie = readCookie("justcuz");
           if(cookie) {
             cid = cookie;
+            emailad = readCookie("justcuz-addr");
+            console.log('help me im stuck');
             $.ajax({
-              url: "index7.php/users/cid/"+ cid,
+              url: "index7.php/users/info/"+ emailad + "/" + cid,
               success: function(result) {
                 if(result["NAME"]) {
                 memName = result["NAME"];
                 addy = result["ADDRESS"];
-                email = result["EMAIL"];
+                emailad = result["EMAIL"];
                 cardNum = result["CARD_NUM"];
                 cardType = result["CARD_TYPE"];
-                console.log(result["NAME"]);
-                console.log(result["ADDRESS"]);
-                console.log(result["EMAIL"]);
-                console.log(result["CARD_NUM"]);
-                console.log(result["CARD_TYPE"]);
+                userType = result["U_TYPE"];
+                //console.log(result["NAME"]);
+                //console.log(result["ADDRESS"]);
+                //console.log(result["EMAIL"]);
+                //console.log(result["CARD_NUM"]);
+                //console.log(result["CARD_TYPE"]);
                 createCookie("justcuz", result["CID"], 1);
-                console.log(cid);
+                createCookie("justcuz-addr", result["EMAIL"], 1);
+                //console.log(cid);
                 points = result["POINTS"];
                 console.log(points);
                 showLoginButton(false, result["NAME"], result["CID"]);
                 }
+                if(userType == "mem") {
+                  $('#secretSauce').hide();
+                  $('#ultraSecret').hide();
+                } else if(userType == "emp"){
+                  $('#secretSauce').show();
+                  $('#ultraSecret').hide();
+                } else {
+                  $('#secretSauce').show();
+                  $('#ultraSecret').show();                  
+                }
+                displayMerch("type", "/all");
               },
               error: function() {
                 console.log("nope 2");
@@ -301,13 +316,33 @@
               data: {"email": email, "password": password},
               success: function(result) {
       				if(result["NAME"]) {
+                //id will be either cid or eid
+                cid = (result["CID"])? result["CID"] : result["EID"];
       					console.log(result["CID"]);
-                createCookie("justcuz", result["CID"], 1);
+                createCookie("justcuz", cid, 1);
+                createCookie("justcuz-addr", result["EMAIL"], 1);
                 points = result["POINTS"];
+                cardNum = result["CARD_NUM"];
+                cardType = result["CARD_TYPE"];
+                memName = result["NAME"];
+                addy = result["ADDRESS"];
+                emailad = result["EMAIL"];
+                userType = result["U_TYPE"];
+                if(userType == "mem") {
+                  $('#secretSauce').hide();
+                  $('#ultraSecret').hide();
+                } else if(userType == "emp"){
+                  $('#secretSauce').show();
+                  $('#ultraSecret').hide();
+                } else {
+                  $('#secretSauce').show();
+                  $('#ultraSecret').show();                  
+                }
+
                 cid = readCookie("justcuz");
       					$('#loginModal').modal('hide');
-      					showLoginButton(false, result["NAME"]);//, result["CID"]);
-                //$('#loginButton').replaceWith("<i class='user icon'></icon>");
+                //depending on user type, show or hide secret links, muahahah
+      					showLoginButton(false, result["NAME"]);
                 displayMerch("type", "/all");
       				} else {
       					//display login error message
@@ -323,9 +358,19 @@
           console.log("stop");
           points = 0;
           eraseCookie("justcuz");
+          eraseCookie("justcuz-addr");
           cid = undefined;
           showLoginButton(true);
+          //probably want a set function instead of changing values all over
+          addy = undefined;
+          memName = undefined;
+          emailad = "";
+          userType = undefined;
+          cardType = undefined;
+          cardNum = 0; //not sure that this matters, just setting to what is at the top
           //work-around
+          $('#secretSauce').hide();
+          $('#ultraSecret').hide();          
           displayMerch("type", "/all");
         });
 
@@ -336,6 +381,8 @@
 
         checkForLoginCookie();
         displayMerch("type", "/all");
+          $('#secretSauce').hide();
+          $('#ultraSecret').hide();          
     });
   </script>
 
@@ -411,6 +458,8 @@
         Stuff n' Things
       </a>
       <a href="#" class="item">Home</a>
+      <a id='secretSauce' href = "employee.html#" class="item">Employees Only</a>
+      <a id='ultraSecret' href = "manager.html#" class="item">Managers Only</a>
       <div class="ui simple dropdown item">
 
         Filter merchandise by: <i class="dropdown icon"></i>
@@ -481,8 +530,6 @@
   <div class="ui main text container">
     <h1 class="ui header">Stuff n' Things</h1>
   </div>
-  <a href = "employee.html#" class="item">Employees Only</a>
-  <a href = "manager.html#" class="item">Managers Only</a>
 
   <div class="ui text container">
 

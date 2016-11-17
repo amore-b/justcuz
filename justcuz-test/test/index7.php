@@ -22,10 +22,8 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 
-if ($c=OCILogon("ora_m3c9", "a39296132", "dbhost.ugrad.cs.ubc.ca:1522/ug")) { 
+if ($c=OCILogon("ora_r5d8", "a29093119", "dbhost.ugrad.cs.ubc.ca:1522/ug")) { 
   $_SESSION["c"] = $c;
-  $_SESSION["test"] = "this is a test";
-  //echo "Successfully connected to Oracle.\n"; 
 } else { 
   $err = OCIError(); 
   //echo "Oracle Connect Error " . $err['message']; 
@@ -45,7 +43,4 @@ if (class_exists($controller_name)) {
         $view->render($result);
     }
 }
-
-//oci_free_statement($stid);
-//oci_close($c);
 ?>
