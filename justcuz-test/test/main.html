@@ -10,7 +10,7 @@
   <!-- Site Properties -->
   <title>Stuff 'n Things</title>
 
-  <!-- replaced sample page links with CDN from https://cdnjs.com/libraries/-->
+  <!-- replaced links with CDN from https://cdnjs.com/libraries/-->
 
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/reset.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/site.min.css">
@@ -33,7 +33,8 @@
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/form.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/input.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/card.min.css">
-  <link rel="stylesheet" type="text/css" href-"https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/label.min.css">  
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/label.min.css">  
+  <link rel="stylesheet" type="text/css" href="main.css">
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/transition.min.js"></script>
@@ -43,411 +44,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/dimmer.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/form.min.js"></script>  
   <script src="client.js"></script>
-
-  <script type="text/javascript">
-  $(document)
-    .ready(function() {
-      var cid, points, userType = 0, cardNum = 0;
-      var memName, addy, cardType, emailad = "";
-      // fix main menu to page on passing
-      $('.main.menu').visibility({
-        type: 'fixed'
-      });
-      $('.overlay').visibility({
-        type: 'fixed',
-        offset: 80
-      });
-      // lazy load images
-      $('.image').visibility({
-        type: 'image',
-        transition: 'vertical flip in',
-        duration: 500
-      });
-      $('.main.menu  .ui.dropdown')
-        .dropdown()
-      ;
-      
-      function drawTable(data, value){
-        //console.log("IN DRAW TABLE");
-
-        if ((data.length != undefined) && (data.length != 0)) {
-          var keys = Object.keys(data[0]);
-          console.log(keys);
-          /*var table = $("<table>");
-          table.append($("<tr>"));
-          for (var i=0; i<keys.length; i++) {
-            table.append($("<td><b>"+keys[i]+"</b></td>"));
-          }
-          table.append($("</tr>"));
-          for (var i=0; i< data.length; i++){
-            table.append($(drawRow(data[i],keys)));
-          }
-          table.append($("</table>"));
-          table.append($("<br /><p>Filtered by "+ value +"</p>"));
-          $('#catalog').html(table);*/
-
-          var cards = $("<div class= 'ui cards'>");
-          for (var j = 0; j < data.length; j++) {
-            cards.append($(drawCard(data[j],keys)));
-          }
-          //close tag
-          cards.append($("</div>"));
-          $('#catalogtest').html(cards);
-        } else {
-          //console.log("nothing.");
-          drawNoResults();
-        }
-
-      }
-	
-      // labels is an array containing the attribute names
-      function drawRow(rowData,labels){
-        //$("#catalog").append(row);
-        console.log(rowData);
-        var row = $("<tr>");
-		    row.append($("<td>" + "<a href = 'orderPage.html?inum=" + rowData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&memName=" + memName +"&email=" + emailad +"&addy=" + addy + "&cardNum=" + cardNum + "&cardType=" + cardType +"&price="+ rowData.PRICE +"'>" + rowData.ITEM_NUM + "</a>" + "</td>"));
-        for (var i=1; i< labels.length; i++) {
-          row.append($("<td>" + rowData[labels[i]] + "</td>"));
-        }
-        row.append($("</tr>"));
-        return row;
-      }
-
-      function drawCard(cardData, labels) {
-        //console.log(cardData);
-        var card = $("<a class='card' href='orderPage.html?inum=" + cardData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&memName=" + memName +"&email=" + emailad +"&addy=" + addy + "&cardNum=" + cardNum + "&cardType=" + cardType +"&price="+ cardData.PRICE  +"'>");
-        card.append($("<div class='image'><img src='catalog/" + cardData.ITEM_NUM +".jpg'></div>"));
-        card.append($("<div class='header'>" + cardData.ITEM_NUM + "</div>"));
-        
-        var desc = "";
-        if(cardData.GENDER)
-          desc += cardData.GENDER + " ";
-        if(cardData.COLOR)
-          desc += cardData.COLOR + " ";
-        if(cardData.TYPE)
-          desc += cardData.TYPE + " ";        
-        if(cardData.COMPANY_NAME)
-          desc += "from " + cardData.COMPANY_NAME;
-
-        card.append($("<div class='content'><div class='meta'>$" + cardData.PRICE + "</div><div class='description'>" + desc + "</div></div></a>"));
-
-        return card;
-      }
-
-      function drawNoResults() {
-          $('#catalog').html("<p>No results found.</p>");
-      }
-
-      $(function() {
-          $('.ui.simple.dropdown').dropdown({
-            onChange: function(value) {
-
-              //var price = "";
-              var type = "";
-              var gender = "";
-              var color = "";
-              var company_name = "";
-              var toshow = "";
-
-              if ( $('#all').is( ":checked" )) {
-                toshow = "/all";
-                console.log("show all");
-              } else {
-                // if ( $('#price').is( ":checked" )) {
-                //   price = "/price";
-                //   console.log("show price");
-                //   console.log(price);
-                // }
-                if ( $('#type').is( ":checked" )) {
-                  type = "/type";
-                  console.log("show type");
-                }
-                if ( $('#gender').is( ":checked" )) {
-                  gender = "/gender";
-                  console.log("show gender");
-                }
-                if ( $('#color').is( ":checked" )) {
-                  color = "/color";
-                  console.log("show color");
-                }
-                if ( $('#company_name').is( ":checked" )) {
-                  company_name = "/company_name";
-                  console.log("show company_name");
-                }
-
-                toshow = type + gender + color + company_name;
-              
-              }
-              console.log(value);
-              displayMerch(value, toshow);
-              /*$.ajax({
-                url: "index7.php/merchandise/" + value + toshow,
-                success: function(result) {
-                    console.log(result);
-                    //$('#catalog').html(result);
-                    drawTable(result, value);
-                },
-                error: function() {
-                    console.log("nope");
-                }
-              })*/
-            }
-          });
-      });
-
-      function displayMerch (value, toShow) {
-        $.ajax({
-          url: "index7.php/merchandise/" + value + toShow ,
-          success: function(result) {
-              //console.log(result);
-              //$('#catalog').html(result);
-              drawTable(result, value);
-          },
-          error: function() {
-              console.log("nope");
-          }
-        })        
-      }
-     
-      $('#loginForm')
-        .form({
-          fields: {
-            email: {
-              identifier  : 'email',
-              rules: [
-                {
-                  type   : 'empty',
-                  prompt : 'Please enter your e-mail'
-                },
-                {
-                  type   : 'email',
-                  prompt : 'Please enter a valid e-mail'
-                }
-              ]
-            },
-            password: {
-              identifier  : 'password',
-              rules: [
-                {
-                  type   : 'empty',
-                  prompt : 'Please enter your password'
-                },
-                {
-                  type   : 'length[6]',//change this
-                  prompt : 'Your password must be at least 6 characters'
-                }
-              ]
-            }
-          }
-
-        });
-
-        function checkForLoginCookie() {
-          var cookie = readCookie("justcuz");
-          if(cookie) {
-            cid = cookie;
-            emailad = readCookie("justcuz-addr");
-            console.log('help me im stuck');
-            $.ajax({
-              url: "index7.php/users/info/"+ emailad + "/" + cid,
-              success: function(result) {
-                if(result["NAME"]) {
-                memName = result["NAME"];
-                addy = result["ADDRESS"];
-                emailad = result["EMAIL"];
-                cardNum = result["CARD_NUM"];
-                cardType = result["CARD_TYPE"];
-                userType = result["U_TYPE"];
-                //console.log(result["NAME"]);
-                //console.log(result["ADDRESS"]);
-                //console.log(result["EMAIL"]);
-                //console.log(result["CARD_NUM"]);
-                //console.log(result["CARD_TYPE"]);
-                createCookie("justcuz", result["CID"], 1);
-                createCookie("justcuz-addr", result["EMAIL"], 1);
-                //console.log(cid);
-                points = result["POINTS"];
-                console.log(points);
-                showLoginButton(false, result["NAME"], result["CID"]);
-                }
-                if(userType == "mem") {
-                  $('#secretSauce').hide();
-                  $('#ultraSecret').hide();
-                } else if(userType == "emp"){
-                  $('#secretSauce').show();
-                  $('#ultraSecret').hide();
-                } else {
-                  $('#secretSauce').show();
-                  $('#ultraSecret').show();                  
-                }
-                displayMerch("type", "/all");
-              },
-              error: function() {
-                console.log("nope 2");
-              }
-            })
-            //get user info using id
-            //replace login button with user icon
-
-          }
-        }
-
-        function showLoginButton(show, name) {
-          //console.log("yup");
-          if(!show) {
-            console.log("there");
-            $('#loginButton').replaceWith("<div id='userArea'><i class='user icon'></i>" + name + "<a class='ui inverted basic button' href='member.html?value="+cid +"'>Profile</a><button class='ui inverted basic button' id='logoutButton'>Log out</button></div>");
-          } else {
-            console.log("here too");
-            $('#userArea').replaceWith("<button class='ui inverted basic button' id='loginButton'>Log in</button>");
-          }
-        }
-
-        $('#loginForm').submit(function(e) {
-          e.preventDefault();
-          
-          if($('#loginForm').form('is valid')) {
-            var email = $('#loginEmail').val(),
-                password = $('#loginPassword').val();
-
-            $.ajax({
-              url: "index7.php/users/login",
-              type: 'get',
-              data: {"email": email, "password": password},
-              success: function(result) {
-      				if(result["NAME"]) {
-                //id will be either cid or eid
-                cid = (result["CID"])? result["CID"] : result["EID"];
-      					console.log(result["CID"]);
-                createCookie("justcuz", cid, 1);
-                createCookie("justcuz-addr", result["EMAIL"], 1);
-                points = result["POINTS"];
-                cardNum = result["CARD_NUM"];
-                cardType = result["CARD_TYPE"];
-                memName = result["NAME"];
-                addy = result["ADDRESS"];
-                emailad = result["EMAIL"];
-                userType = result["U_TYPE"];
-                if(userType == "mem") {
-                  $('#secretSauce').hide();
-                  $('#ultraSecret').hide();
-                } else if(userType == "emp"){
-                  $('#secretSauce').show();
-                  $('#ultraSecret').hide();
-                } else {
-                  $('#secretSauce').show();
-                  $('#ultraSecret').show();                  
-                }
-
-                cid = readCookie("justcuz");
-      					$('#loginModal').modal('hide');
-                //depending on user type, show or hide secret links, muahahah
-      					showLoginButton(false, result["NAME"]);
-                displayMerch("type", "/all");
-      				} else {
-      					//display login error message
-      					console.log(result);
-      				}
-              //todo: error case
-              }
-            })
-          }
-        })
-
-        $('#userNav').on('click', '#logoutButton', function(){
-          console.log("stop");
-          points = 0;
-          eraseCookie("justcuz");
-          eraseCookie("justcuz-addr");
-          cid = undefined;
-          showLoginButton(true);
-          //probably want a set function instead of changing values all over
-          addy = undefined;
-          memName = undefined;
-          emailad = "";
-          userType = undefined;
-          cardType = undefined;
-          cardNum = 0; //not sure that this matters, just setting to what is at the top
-          //work-around
-          $('#secretSauce').hide();
-          $('#ultraSecret').hide();          
-          displayMerch("type", "/all");
-        });
-
-        $('#userNav').on('click', '#loginButton', function() {
-          console.log("rip");
-          $('#loginModal').modal('show');
-        });
-
-        checkForLoginCookie();
-        displayMerch("type", "/all");
-          $('#secretSauce').hide();
-          $('#ultraSecret').hide();          
-    });
-  </script>
-
-  <style type="text/css">
-  body {
-    background-color: #FFFFFF;
-  }
-  .main.container {
-    margin-top: 7em;
-  }
-  .main.menu {
-    margin-top: 4em;
-    border-radius: 0;
-    border: none;
-    box-shadow: none;
-    transition:
-      box-shadow 0.5s ease,
-      padding 0.5s ease
-    ;
-  }
-  .main.menu .item img.logo {
-    margin-right: 1.5em;
-  }
-  .overlay {
-    float: left;
-    margin: 0em 3em 1em 0em;
-  }
-  .overlay .menu {
-    position: relative;
-    left: 0;
-    transition: left 0.5s ease;
-  }
-  .main.menu.fixed {
-    background-color: #FFFFFF;
-    border: 1px solid #DDD;
-    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
-  }
-  .overlay.fixed .menu {
-    left: 800px;
-  }
-  .text.container .left.floated.image {
-    margin: 2em 2em 2em -4em;
-  }
-  .text.container .right.floated.image {
-    margin: 2em -4em 2em 2em;
-  }
-  .ui.footer.segment {
-    margin: 5em 0em 0em;
-    padding: 5em 0em;
-  }
-  .ui.segment {
-    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
-    border: 0px;
-  }
-  .ui.stacked.segment {
-    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
-  }
-  .ui.stacked.segment:after {
-    border-top: 0px;
-    height: 0;
-  }
-  .ui.error.message {
-    text-align: left;
-  }
-  </style>
 
 </head>
 <body>
@@ -516,9 +112,7 @@
               </div>
               </div>
             </div>
-
           </div>
-
       </div>
       <div class="right item">
         <div id="userNav"><button class="ui inverted basic button" id="loginButton">Log in</button></div>
@@ -533,10 +127,6 @@
   <div class="ui text container">
 
     <b>First, select which columns to show (Item_Num and Price are always shown):</b>
-<!--     <div class="ui checkbox">
-      <input id="price" tabindex="0" class="hidden" type="checkbox">
-      <label>Price</label>
-    </div> -->
     <div class="ui checkbox">
       <input id="type" tabindex="0" class="hidden" type="checkbox">
       <label>Type</label>
@@ -590,7 +180,7 @@
     </div>
     <div class="ui middle aligned center aligned grid">
       <div class="column">
-        <form class="ui large form" id="loginForm" > <!--action="index7.php/users/login" method="post"-->
+        <form class="ui large form" id="loginForm">
           <div class="ui stacked segment">
             <div class="field">
               <div class="ui left icon input">
