@@ -202,7 +202,11 @@
 
         function showLoginButton(show, name) {
           if(!show) {
-            $('#loginButton').replaceWith("<div id='userArea'><i class='user icon'></i>" + name + "<a class='ui inverted basic button' href='member.html?value="+cid +"'>Profile</a><button class='ui inverted basic button' id='logoutButton'>Log out</button></div>");
+            if(userType == "mem") {
+              $('#loginButton').replaceWith("<div id='userArea'><i class='user icon'></i>" + name + "<a class='ui inverted basic button' href='member.html?value="+cid +"'>Profile</a><button class='ui inverted basic button' id='logoutButton'>Log out</button></div>");
+            } else {
+              $('#loginButton').replaceWith("<div id='userArea'><i class='user icon'></i>" + name + "<button class='ui inverted basic button' id='logoutButton'>Log out</button></div>");
+            }
           } else {
             $('#userArea').replaceWith("<button class='ui inverted basic button' id='loginButton'>Log in</button>");
           }
