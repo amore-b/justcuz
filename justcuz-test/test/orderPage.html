@@ -38,7 +38,9 @@
     $(document).ready(function(){
       document.getElementById('inum').value=getParameterByName('inum');
       document.getElementById('a').value=getParameterByName('price');
+      if(getParameterByName('points') !='undefined'){
       document.getElementById('pnts').value=getParameterByName('points')/100;
+      }
       document.getElementById('memid').value=getParameterByName('cid');
 
       if(document.getElementById('memid').value!="undefined"){
@@ -166,7 +168,7 @@
     </div> 
     <div class="field">
       <label>Points (Dollar Value)</label>
-      <input type="number" name="points" id="pnts" value="" readonly>
+      <input type="number" name="points" id="pnts" value="0" readonly>
     </div> 
     <div class="field">
       <label>Total Price</label>

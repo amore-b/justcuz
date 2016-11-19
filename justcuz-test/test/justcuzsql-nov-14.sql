@@ -169,6 +169,9 @@ values('wwjcd@jc.ca', 1);
 insert into users
 values('lylestyle@jc.ca', 1);
 
+insert into users
+values('jbiebs@jc.ca', 1);
+
 
 insert into customer
 values(1212, 'John Oliver', 'johnoliver@hotmail.com', 
@@ -215,6 +218,9 @@ values(5004, 'wwjcd@jc.ca', 'DUNNO', 'Jasper Carney', '1195 Lobortis Rd. New Orl
 insert into employee
 values(5005, 'lylestyle@jc.ca', 'saf3ty1Zk3y','Lyle Sutton', '250-9843 Elementum St. South Gate, Missouri 68999',
 '736-522-8584', '2016-07-18');
+
+insert into employee
+values (5010, 'jbiebs@jc.ca', 'whatdoyoumean', 'Justin Bieber', '4560 Hollywood Blvd', '555-555-5555', '2016-11-18');
 
 insert into member
 values(1212, 'password', 0);

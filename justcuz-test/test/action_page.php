@@ -162,7 +162,7 @@ echo " employee id: " . $eid;
 echo " cust id: " . $cid;
 echo " quantity: " . $quantity;
 
-$sql2 = "INSERT INTO order_delivers_buys VALUES ('$ordernum', '$inum', '$eid', '$cid', sysdate, '$quantity')";
+$sql2 = "INSERT INTO order_delivers_buys VALUES ('$ordernum', '$totalprice', '$inum', '$eid', '$cid', sysdate, '$quantity')";
 $std1=oci_parse($c, $sql2);
 if (!$std1) {
     echo "ram_init";
