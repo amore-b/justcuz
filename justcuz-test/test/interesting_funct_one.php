@@ -12,7 +12,7 @@ if ($c=OCILogon("ora_m3c9", "a39296132", "dbhost.ugrad.cs.ubc.ca:1522/ug")) {
 $sql = "create view topfive as item_num, count(*) as total_sales from order_delivers_buys group by item_num order by total_sales desc";
 $st=oci_parse($c, $sql);
 oci_execute($st);
-$sql = "select company_name from merchandise_supplies where item_num in (select item_num from topfive where rownum <=5)";
+$sql = "select distinct company_name from merchandise_supplies where item_num in (select item_num from topfive where rownum <=5)";
 $st1=oci_parse($c, $sql);
 oci_execute($st1);
 

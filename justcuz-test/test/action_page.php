@@ -1,4 +1,7 @@
 <html>
+<body>
+      <a href="main.html#" class="item">Home</a>
+    </body>
 <?php
 if ($c=OCILogon("ora_m3c9", "a39296132", "dbhost.ugrad.cs.ubc.ca:1522/ug")) { 
   echo "Successfully connected to Oracle.\n"; 
