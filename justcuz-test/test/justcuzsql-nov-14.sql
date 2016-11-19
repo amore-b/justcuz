@@ -117,7 +117,6 @@ create table stored_at
 
 grant select on stored_at to public;
 
-
 insert into location
 values(1, '2329 West Mall Vancouver, B.C. Canada, V6T 1Z4');
 
@@ -401,3 +400,12 @@ values(8, 'M', 800, 5004);
 
 insert into inventory_tracks
 values(9, 'S', 432, 5000);
+
+create trigger ballinMember
+	after insert on order_delivers_buys
+	for each row
+	when (new.total > 999)
+	begin
+	update member set points=points+50000 where cid = :new.cid;
+	end;
+	/

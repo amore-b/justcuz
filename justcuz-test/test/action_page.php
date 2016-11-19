@@ -1,7 +1,4 @@
 <html>
-<body>
-      <a href="main.html#" class="item">Home</a>
-    </body>
 <?php
 if ($c=OCILogon("ora_m3c9", "a39296132", "dbhost.ugrad.cs.ubc.ca:1522/ug")) { 
   echo "Successfully connected to Oracle.\n"; 
@@ -168,12 +165,12 @@ echo " quantity: " . $quantity;
 $sql2 = "INSERT INTO order_delivers_buys VALUES ('$ordernum', '$totalprice', '$inum', '$eid', '$cid', sysdate, '$quantity')";
 $std1=oci_parse($c, $sql2);
 if (!$std1) {
-    echo "ram_init";
+    echo "order delivers buys insert query parse failed";
 }
 $r2 = oci_execute($std1);
 if (!$r2) {
     //$e = oci_error();   // For oci_connect errors pass no handle
-    echo "ramz";
+    echo "order delivers buys insert query execution failed";
 }
 oci_free_statement($std1);
 
