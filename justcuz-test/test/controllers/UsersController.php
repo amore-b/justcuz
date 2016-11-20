@@ -167,6 +167,73 @@ class UsersController extends MyController
                 oci_close($cc);          
             break;            
 				
+            case 'new':
+              $cc = $_SESSION["c"];
+              $name = $request->parameters["name"];
+              $email = $request->parameters["email"];
+              $password = $request->parameters["password"];
+              $address = $request->parameters["address"];
+              $cardType = $request->parameters["cardType"];
+              $cardNum = $request->parameters["cardNum"];
+
+              $q = "SELECT * from users where email='". $email. "'";
+              $st = oci_parse($cc, $q);
+              oci_execute($st);
+              $rr = oci_fetch_array($st, OCI_ASSOC);
+              if($rr) {
+                $data = $rr;
+                $data["q"] = $q;
+                $data["error"] = "email address already exists. Please provide a different email";
+                break;
+              } else {
+                $cid = rand(1, 999999);
+                $stid = oci_parse($cc, 'select cid from customer');
+                oci_execute($stid);
+                $exists = True;
+                while($exists){                  
+                  while ($row1 = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+                    foreach ($row1 as $item1) {
+                        if($item1 == $cid){
+                            $cid = $cid + 1;
+                            $exists=True;
+                        }
+                        else{
+                            $exists=False;
+                        }
+                    }
+                  }
+                }
+                oci_free_statement($stid);
+            
+                $sql69 = "INSERT INTO users VALUES('$email', 2)";
+                $st69=oci_parse($cc, $sql69);
+                if(!oci_execute($st69)){
+                    $data["error"] = "user addition unsuccessful";
+                }
+                oci_free_statement($st69);
+                 
+                $sql69 = "INSERT INTO customer VALUES('$cid', '$name', '$email', '$address', '$cardNum', '$cardType')";
+                $st69=oci_parse($cc, $sql69);
+                if(!oci_execute($st69)){
+                    $data["error"] = "customer addition unsuccessful";
+                }
+                oci_free_statement($st69);
+
+                $sql69 = "INSERT INTO member VALUES('$cid', '$password', 100)";
+                $st69=oci_parse($cc, $sql69);
+                if(!oci_execute($st69)){
+                    $data["error"] = "member addition unsuccessful";
+                }
+                oci_free_statement($st69);
+              }
+              oci_free_statement($st);
+
+              $data["CID"] = $cid;
+              $data["ERROR"] = false;
+              $data["POINTS"] = 100;
+
+            break;
+
             default:
                 $data = $request->parameters;
                 $data['message'] = "This data was submitted";

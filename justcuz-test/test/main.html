@@ -33,7 +33,9 @@
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/form.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/input.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/card.min.css">
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/label.min.css">  
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/label.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/icon.min.css">
+
   <link rel="stylesheet" type="text/css" href="main.css">
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -116,7 +118,11 @@
           </div>
       </div>
       <div class="right item">
-        <div id="userNav"><button class="ui inverted basic button" id="loginButton">Log in</button></div>
+        <div id="userNav">
+          <button class="ui inverted basic button" id="loginButton">Log in</button>
+          <button class="ui inverted basic button" id="signUpButton">Sign up</button>
+        </div>
+
       </div>
     </div>
   </div>
@@ -209,4 +215,91 @@
       </div>
     </div>
   </div>
+
+  <div class="ui modal" id="signUpModal">
+    <i class="close icon"></i>
+    <div class="header">
+      <div class="ui middle aligned center aligned grid">
+      <div class="column">
+        <h2 class="ui teal header">
+          <div class="content">
+            Create a new account
+          </div>
+        </h2>
+      </div>
+    </div>
+    </div>
+    <div class="ui middle aligned center aligned grid">
+      <div class="column">
+        <form class="ui large form" id="signUpForm">
+          <div class="ui stacked segment">
+            <div class="field">
+              <label></label> <!--chage so not centered-->
+              <div class="two fields">
+                <div class="field">
+                  <input type="text" name="name" placeholder="Full Name" id="fullName">
+                </div>
+                <div class="field">
+                  <input type="text" name="address" placeholder="Address" id="mailingAddr">
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label></label>
+              <div class="two fields">
+                <div class="field">
+                  <input type="text" name="email" placeholder="E-mail address" id="emailAddr">
+                </div>
+                <div class="field">
+                  <input type="password" name="password" placeholder="Password" id="password">
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label></label>
+              <div class="two fields">
+                <div class="field">
+                <div class="ui selection dropdown">
+                  <input type="hidden" name="card-type" id="cardType">
+                  <div class="default text">Card Type</div>
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                    <div class="item" data-value="visa">
+                      <i class="visa icon"></i>
+                      Visa
+                    </div>
+                    <div class="item" data-value="amex">
+                      <i class="amex icon"></i>
+                      American Express
+                    </div>
+                    <div class="item" data-value="mastercard">
+                      <i class="mastercard icon"></i>
+                      Mastercard
+                    </div>                    
+                    <div class="item" data-value="discover">
+                      <i class="discover icon"></i>
+                      Discover
+                    </div>
+                  </div>
+                </div>
+              </div>
+                <div class="field">
+                    <input type="text" name="card-number" maxlength="16" placeholder="Card Number" id="cardNumber">
+                </div> 
+              </div>
+            </div>
+            <div class="ui error message"></div>
+            <div class="ui teal submit button">Sign me up!</div>  
+          </div>
+        </form>            
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui middle aligned center aligned grid">
+        <div class="ui message">
+          Already a member? <a href="#">Log in</a>
+        </div>
+      </div>
+    </div>
+  </div>  
 </body>

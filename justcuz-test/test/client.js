@@ -17,10 +17,13 @@
         transition: 'vertical flip in',
         duration: 500
       });
-      $('.main.menu  .ui.dropdown')
+      $('.ui.dropdown')
         .dropdown()
       ;
-      
+      $('.ui.modal')
+        .modal()
+      ;      
+
       function drawTable(data, value){
         if ((data.length != undefined) && (data.length != 0)) {
           var keys = Object.keys(data[0]);
@@ -150,8 +153,72 @@
               ]
             }
           }
-
         });
+
+      $('#signUpForm')
+        .form({
+          fields: {
+            name: {
+              identifier  : 'name',
+              rules: [ //maybe add one with max length or char type
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter your name'
+                }
+              ]
+            },
+            password: {
+              identifier  : 'password',
+              rules: [ //re-enter password and check they match is do-able
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter a password'
+                }
+              ]
+            },                         
+            email: {
+              identifier  : 'email',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter your e-mail'
+                },
+                {
+                  type   : 'email',
+                  prompt : 'Please enter a valid e-mail'
+                }
+              ]
+            },
+            address: {
+              identifier  : 'address',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter your address'
+                }
+              ]
+            },            
+            ctype: {
+              identifier  : 'card-type',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please select a credit card type'
+                }
+              ]
+            },
+            cnum: {
+              identifier  : 'card-number',
+              rules: [
+                {
+                  type   : 'creditCard',
+                  prompt : 'Please enter a valid credit card number'
+                }
+              ]
+            }             
+          }
+         
+        });        
 
         function checkForLoginCookie() {
             console.log('checking for cookie');
@@ -203,8 +270,9 @@
         function showLoginButton(show, name) {
           if(!show) {
             $('#loginButton').replaceWith("<div id='userArea'><i class='user icon'></i>" + name + "<a class='ui inverted basic button' href='member.html?value="+cid +"'>Profile</a><button class='ui inverted basic button' id='logoutButton'>Log out</button></div>");
+            $('#signUpButton').hide();
           } else {
-            $('#userArea').replaceWith("<button class='ui inverted basic button' id='loginButton'>Log in</button>");
+            $('#userArea').replaceWith("<button class='ui inverted basic button' id='loginButton'>Log in</button><button class='ui inverted basic button' id='signUpButton'>Sign up</button>");
           }
         }
 
@@ -259,6 +327,55 @@
           }
         })
 
+        $('#signUpForm').submit(function(e) {
+          e.preventDefault();
+          
+          if($('#signUpForm').form('is valid')) {
+            var name = $('#fullName').val(),
+                email = $('#emailAddr').val(),
+                address = $('#mailingAddr').val(),
+                password = $('#password').val(),
+                cType = $('#cardType').val(),
+                cNum = $('#cardNumber').val();
+
+            $.ajax({
+              url: "index7.php/users/new",
+              type: 'get',
+              data: {"email": email, "password": password, "name": name,
+                     "address": address, "cardType": cType, "cardNum": cNum},
+              success: function(result) {
+                if(!result["ERROR"]) {//result["NAME"]) {
+                  console.log(result);
+                  
+                  //id will be either cid or eid
+                  cid = (result["CID"]);
+                                 
+                  addy = address;
+                  points = result["POINTS"];
+                  memName = name;
+                  emailad = email;
+                  userType = 2;                
+                  cardNum = cNum;
+                  cardType = cType;
+
+                  createCookie("justcuz", cid, 1);
+                  createCookie("justcuz-addr", email, 1);
+     
+
+
+                  $('#signUpModal').modal('hide');
+                  showLoginButton(false, name);
+                  displayMerch("type", "/all");
+                } else {
+                    //display login error message
+                    console.log(result);
+                }
+              //todo: error case
+              }
+            })
+          }
+        })
+
         $('#userNav').on('click', '#logoutButton', function(){
           points = 0;
           cid = undefined;
@@ -285,6 +402,10 @@
 
         $('#userNav').on('click', '#loginButton', function() {
           $('#loginModal').modal('show');
+        });
+
+        $('#userNav').on('click', '#signUpButton', function() {
+          $('#signUpModal').modal('show');
         });
 
         checkForLoginCookie();
