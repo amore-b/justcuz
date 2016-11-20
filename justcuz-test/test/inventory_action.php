@@ -63,7 +63,7 @@ if(!$exists1){
 	die;
 }
 
-$sql1 = "UPDATE inventory_tracks SET count = count + '$quantity' WHERE item_num = '$item' AND size_label = '$size'";
+$sql1 = "UPDATE inventory_tracks SET count = '$quantity' WHERE item_num = '$item' AND size_label = '$size'";
 $st = oci_parse($c, $sql1);
 if(!oci_execute($st)){
 	echo "Invalid inventory update. Please re-specify item";	//type checking (i.e. quantity)
