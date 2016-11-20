@@ -22,18 +22,23 @@
       ;
       $('.ui.modal')
         .modal()
-      ;      
+      ;
+          
 
       function drawTable(data, value){
         if ((data.length != undefined) && (data.length != 0)) {
           var keys = Object.keys(data[0]);
-          var cards = $("<div class= 'ui cards'>");
+          var cards = $("<div class= 'ui center aligned special cards'>");
           
           for (var j = 0; j < data.length; j++) {
             cards.append($(drawCard(data[j],keys)));
           }
           cards.append($("</div>"));
           $('#catalogtest').html(cards);
+
+          $('.image').dimmer({
+            on: 'hover'
+          });
         } else {
           drawNoResults();
         }
@@ -42,7 +47,31 @@
     
       // labels is an array containing the attribute names
       function drawCard(cardData, labels) {
-        var card = $("<a class='card' href='orderPage.html?inum=" + cardData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&memName=" + memName +"&email=" + emailad +"&addy=" + addy + "&cardNum=" + cardNum + "&cardType=" + cardType +"&price="+ cardData.PRICE  +"'>");
+        var desc = "";
+        if(cardData.GENDER)
+          desc += cardData.GENDER + " ";
+        if(cardData.COLOR)
+          desc += cardData.COLOR + " ";
+        if(cardData.TYPE)
+          desc += cardData.TYPE + " ";        
+        if(cardData.COMPANY_NAME)
+          desc += "from " + cardData.COMPANY_NAME;
+
+        var card = $("<a class='card' href='orderPage.html?inum=" + cardData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&memName=" + memName +"&email=" + emailad +"&addy=" + addy + "&cardNum=" + cardNum + "&cardType=" + cardType +"&price="+ cardData.PRICE  + "'>"+
+                     "<div class='blurring dimmable image'>" +
+                     "<div class='ui inverted dimmer'><div class='content'><div class='center'>" + 
+                     "<div class='ui primary button'>Buy now</div>" + desc +" $" + cardData.PRICE +"</div></div></div>" + 
+                     "<img src='catalog/" + cardData.ITEM_NUM +".jpg'></div></a>");
+        //card.append($("<div class='blurring dimmable image'><div class='ui inverted dimmer'><div class='content'><div class='centre'>$" + cardData.PRICE + " " + desc + "</div></div></div><img src='catalog/" + cardData.ITEM_NUM +".jpg'></div></div>"));
+        //card.append($("<div class='image'><img src='catalog/" + cardData.ITEM_NUM +".jpg'></div>"));
+        //card.append($("<div class='header'>" + cardData.ITEM_NUM + "</div>"));
+        
+
+
+        //card.append($("<div class='content'><div class='centre'>$" + cardData.PRICE + "</div><div class='description'>" + desc + "</div></div>"));
+        //card.append($("<div class='image'><img src='catalog/" + cardData.ITEM_NUM +".jpg'></a>"));
+        return card;        
+        /*var card = $("<a class='card' href='orderPage.html?inum=" + cardData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&memName=" + memName +"&email=" + emailad +"&addy=" + addy + "&cardNum=" + cardNum + "&cardType=" + cardType +"&price="+ cardData.PRICE  +"'>");
         card.append($("<div class='image'><img src='catalog/" + cardData.ITEM_NUM +".jpg'></div>"));
         card.append($("<div class='header'>" + cardData.ITEM_NUM + "</div>"));
         
@@ -58,7 +87,7 @@
 
         card.append($("<div class='content'><div class='meta'>$" + cardData.PRICE + "</div><div class='description'>" + desc + "</div></div></a>"));
 
-        return card;
+        return card;*/
       }
 
       function drawNoResults() {
