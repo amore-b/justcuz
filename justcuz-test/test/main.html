@@ -58,7 +58,32 @@
       </a>
       <a id='secretSauce' href = "employee.html#" class="item">Employees Only</a>
       <a id='ultraSecret' href = "manager.html#" class="item">Managers Only</a>
-      <div class="ui simple dropdown item">
+      </div>
+      <div class="right item">
+        <div id="userNav">
+          <button class="ui inverted basic button" id="loginButton">Log in</button>
+          <button class="ui inverted basic button" id="signUpButton">Sign up</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="ui main text container">
+    <h1 class="ui header"></h1>
+  </div>
+<div>
+    <select name="skills" multiple="" class="ui fluid dropdown" id="checking">
+      <option value="">First, select which specs to show</font></option>
+      <option id="all" value="All">All</option>
+      <option id="type" value="Type">Type</option>
+      <option id="gender" value="Gender">Gender</option>
+      <option id="color" value="color">Color</option>
+      <option id="company_name" value="company">Brand</option>
+    </select>
+  </div><br>
+<div style="border-left:10px solid #fff;">
+  <div class="ui simple dropdown item">
 
         Filter merchandise by: <i class="dropdown icon"></i>
           <div class="menu">
@@ -115,46 +140,8 @@
               </div>
               </div>
             </div>
-          </div>
-      </div>
-      <div class="right item">
-        <div id="userNav">
-          <button class="ui inverted basic button" id="loginButton">Log in</button>
-          <button class="ui inverted basic button" id="signUpButton">Sign up</button>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <div class="ui main text container">
-    <h1 class="ui header">Stuff n' Things</h1>
-  </div>
-
-  <div class="ui text container">
-
-    <b>First, select which columns to show (Item_Num and Price are always shown):</b>
-    <div class="ui checkbox">
-      <input id="type" tabindex="0" class="hidden" type="checkbox">
-      <label>Type</label>
-    </div>
-    <div class="ui checkbox">
-      <input id="gender" tabindex="0" class="hidden" type="checkbox">
-      <label>Gender</label>
-    </div>
-    <div class="ui checkbox">
-      <input id="color" tabindex="0" class="hidden" type="checkbox">
-      <label>Color</label>
-    </div>
-    <div class="ui checkbox">
-      <input id="company_name" tabindex="0" class="hidden" type="checkbox">
-      <label>Company_Name</label>
-    </div>
-    <div class="ui checkbox">
-      <input id="all" tabindex="0" class="hidden" type="checkbox">
-      <label>All</label>
-    </div>
-  </div>
+          </div></div>
+          <br><br><br><br><br><br>
 
 
   <div class="ui text container" id="catalog"></div>

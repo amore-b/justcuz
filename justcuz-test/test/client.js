@@ -60,7 +60,7 @@
         var card = $("<a class='ui centered card' href='orderPage.html?inum=" + cardData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&memName=" + memName +"&email=" + emailad +"&addy=" + addy + "&cardNum=" + cardNum + "&cardType=" + cardType +"&price="+ cardData.PRICE  + "'>"+
                      "<div class='blurring dimmable image'>" +
                      "<div class='ui inverted dimmer'><div class='content'><div class='center'>" + 
-                     "<div class='ui primary button'>Buy now</div>" + desc +" $" + cardData.PRICE +"</div></div></div>" + 
+                     "<div class='ui primary button'>Buy now</div>" + desc + "<font color='black'>" + " $" +cardData.PRICE+"</font>" +"</div></div></div>" + 
                      "<img src='catalog/" + cardData.ITEM_NUM +".jpg'></div></a>");
         //card.append($("<div class='blurring dimmable image'><div class='ui inverted dimmer'><div class='content'><div class='centre'>$" + cardData.PRICE + " " + desc + "</div></div></div><img src='catalog/" + cardData.ITEM_NUM +".jpg'></div></div>"));
         //card.append($("<div class='image'><img src='catalog/" + cardData.ITEM_NUM +".jpg'></div>"));
