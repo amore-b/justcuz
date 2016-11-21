@@ -28,7 +28,7 @@
       function drawTable(data, value){
         if ((data.length != undefined) && (data.length != 0)) {
           var keys = Object.keys(data[0]);
-          var cards = $("<div class= 'ui center aligned special cards'>");
+          var cards = $("<div class= 'ui center aligned special cards'>"); //change this back?
           
           for (var j = 0; j < data.length; j++) {
             cards.append($(drawCard(data[j],keys)));
@@ -57,7 +57,7 @@
         if(cardData.COMPANY_NAME)
           desc += "from " + cardData.COMPANY_NAME;
 
-        var card = $("<a class='card' href='orderPage.html?inum=" + cardData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&memName=" + memName +"&email=" + emailad +"&addy=" + addy + "&cardNum=" + cardNum + "&cardType=" + cardType +"&price="+ cardData.PRICE  + "'>"+
+        var card = $("<a class='ui centered card' href='orderPage.html?inum=" + cardData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&memName=" + memName +"&email=" + emailad +"&addy=" + addy + "&cardNum=" + cardNum + "&cardType=" + cardType +"&price="+ cardData.PRICE  + "'>"+
                      "<div class='blurring dimmable image'>" +
                      "<div class='ui inverted dimmer'><div class='content'><div class='center'>" + 
                      "<div class='ui primary button'>Buy now</div>" + desc +" $" + cardData.PRICE +"</div></div></div>" + 
