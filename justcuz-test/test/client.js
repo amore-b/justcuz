@@ -60,7 +60,7 @@
         var card = $("<a class='ui centered card' href='orderPage.html?inum=" + cardData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&memName=" + memName +"&email=" + emailad +"&addy=" + addy + "&cardNum=" + cardNum + "&cardType=" + cardType +"&price="+ cardData.PRICE  + "'>"+
                      "<div class='blurring dimmable image'>" +
                      "<div class='ui inverted dimmer'><div class='content'><div class='center'>" + 
-                     "<div class='ui primary button'>Buy now</div>" + desc + "<font color='black'>" + " $" +cardData.PRICE+"</font>" +"</div></div></div>" + 
+                     "<div class='ui primary button'>Buy now</div><br/><br/>" + "<font color='black'>" + desc + " $" +cardData.PRICE+"</font>" +"</div></div></div>" +
                      "<img src='catalog/" + cardData.ITEM_NUM +".jpg'></div></a>");
         //card.append($("<div class='blurring dimmable image'><div class='ui inverted dimmer'><div class='content'><div class='centre'>$" + cardData.PRICE + " " + desc + "</div></div></div><img src='catalog/" + cardData.ITEM_NUM +".jpg'></div></div>"));
         //card.append($("<div class='image'><img src='catalog/" + cardData.ITEM_NUM +".jpg'></div>"));
@@ -250,7 +250,6 @@
         });        
 
         function checkForLoginCookie() {
-            console.log('checking for cookie');
           var cookie = readCookie("justcuz");
           if(cookie) {
             cid = cookie;
@@ -268,21 +267,21 @@
                   cardType = result["CARD_TYPE"];
                   userType = result["U_TYPE"];
 
-                  createCookie("justcuz", result["CID"], 1);
+                  createCookie("justcuz", cid, 1);
                   createCookie("justcuz-addr", result["EMAIL"], 1);
 
-                  showLoginButton(false, result["NAME"]);//, result["CID"]);
+                  showLoginButton(false, result["NAME"]);
                 }
 
-                if(userType == "mem") {
-                  $('#secretSauce').hide();
-                  $('#ultraSecret').hide();
+                if(userType == "mgr") {
+                  $('#secretSauce').show();
+                  $('#ultraSecret').show();
                 } else if(userType == "emp"){
                   $('#secretSauce').show();
                   $('#ultraSecret').hide();
                 } else {
-                  $('#secretSauce').show();
-                  $('#ultraSecret').show();                  
+                  $('#secretSauce').hide();
+                  $('#ultraSecret').hide();
                 }
                 displayMerch("type", "/all");
               },
@@ -321,39 +320,41 @@
               type: 'get',
               data: {"email": email, "password": password},
               success: function(result) {
-                    if(result["NAME"]) {
-                //id will be either cid or eid
-                cid = (result["CID"])? result["CID"] : result["EID"];
-                               
-                addy = result["ADDRESS"];
-                points = result["POINTS"];
-                memName = result["NAME"];
-                emailad = result["EMAIL"];
-                userType = result["U_TYPE"];                
-                cardNum = result["CARD_NUM"];
-                cardType = result["CARD_TYPE"];
+                if(result["NAME"]) {
+                  //id will be either cid or eid
+                  cid = (result["CID"])? result["CID"] : result["EID"];
+                  console.log(cid);
 
-                createCookie("justcuz", cid, 1);
-                createCookie("justcuz-addr", result["EMAIL"], 1);
-   
-                if(userType == "mem") {
-                  $('#secretSauce').hide();
-                  $('#ultraSecret').hide();
-                } else if(userType == "emp"){
-                  $('#secretSauce').show();
-                  $('#ultraSecret').hide();
+                  addy = result["ADDRESS"];
+                  points = result["POINTS"];
+                  memName = result["NAME"];
+                  emailad = result["EMAIL"];
+                  userType = result["U_TYPE"];
+                  cardNum = result["CARD_NUM"];
+                  cardType = result["CARD_TYPE"];
+
+                  createCookie("justcuz", cid, 1);
+                  createCookie("justcuz-addr", result["EMAIL"], 1);
+
+                  if(userType == "mgr") {
+                    $('#secretSauce').show();
+                    $('#ultraSecret').show();
+                  } else if(userType == "emp"){
+                    $('#secretSauce').show();
+                    $('#ultraSecret').hide();
+                  } else {
+                    $('#secretSauce').hide();
+                    $('#ultraSecret').hide();
+                  }
+
+                  $('#loginModal').modal('hide');
+                  $('#loginModal').form('clear');
+                  showLoginButton(false, result["NAME"]);
+                  displayMerch("type", "/all");
                 } else {
-                  $('#secretSauce').show();
-                  $('#ultraSecret').show();                  
+                    //display login error message
+                    console.log(result);
                 }
-
-                        $('#loginModal').modal('hide');
-                        showLoginButton(false, result["NAME"]);
-                displayMerch("type", "/all");
-                    } else {
-                        //display login error message
-                        console.log(result);
-                    }
               //todo: error case
               }
             })
@@ -417,7 +418,7 @@
           //probably want a set function instead of changing values all over
           addy = undefined;
           memName = undefined;
-          emailad = "";
+          emailad = undefined;
           userType = undefined;
           cardType = undefined;
           cardNum = 0; //not sure that this matters, setting to what is at the top
