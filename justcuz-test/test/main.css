@@ -58,3 +58,8 @@ body {
 .ui.error.message {
   text-align: left;
 }
+
+#catalogtest {
+  padding-left: 4em;
+  padding-right: 4em;
+}

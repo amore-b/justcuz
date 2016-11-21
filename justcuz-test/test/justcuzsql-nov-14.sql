@@ -117,7 +117,6 @@ create table stored_at
 
 grant select on stored_at to public;
 
-
 insert into location
 values(1, '2329 West Mall Vancouver, B.C. Canada, V6T 1Z4');
 
@@ -169,6 +168,9 @@ values('wwjcd@jc.ca', 1);
 insert into users
 values('lylestyle@jc.ca', 1);
 
+insert into users
+values('jbiebs@jc.ca', 1);
+
 
 insert into customer
 values(1212, 'John Oliver', 'johnoliver@hotmail.com', 
@@ -215,6 +217,9 @@ values(5004, 'wwjcd@jc.ca', 'DUNNO', 'Jasper Carney', '1195 Lobortis Rd. New Orl
 insert into employee
 values(5005, 'lylestyle@jc.ca', 'saf3ty1Zk3y','Lyle Sutton', '250-9843 Elementum St. South Gate, Missouri 68999',
 '736-522-8584', '2016-07-18');
+
+insert into employee
+values (5010, 'jbiebs@jc.ca', 'whatdoyoumean', 'Justin Bieber', '4560 Hollywood Blvd', '555-555-5555', '2016-11-18');
 
 insert into member
 values(1212, 'password', 0);
@@ -395,3 +400,12 @@ values(8, 'M', 800, 5004);
 
 insert into inventory_tracks
 values(9, 'S', 432, 5000);
+
+create trigger ballinMember
+	after insert on order_delivers_buys
+	for each row
+	when (new.total > 999)
+	begin
+	update member set points=points+50000 where cid = :new.cid;
+	end;
+	/
