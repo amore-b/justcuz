@@ -171,6 +171,8 @@ values('lylestyle@jc.ca', 1);
 insert into users
 values('jbiebs@jc.ca', 1);
 
+insert into users
+values('temp@jc.ca', 1);
 
 insert into customer
 values(1212, 'John Oliver', 'johnoliver@hotmail.com', 
@@ -221,6 +223,9 @@ values(5005, 'lylestyle@jc.ca', 'saf3ty1Zk3y','Lyle Sutton', '250-9843 Elementum
 insert into employee
 values (5010, 'jbiebs@jc.ca', 'whatdoyoumean', 'Justin Bieber', '4560 Hollywood Blvd', '555-555-5555', '2016-11-18');
 
+insert into employee
+values (5222, 'temp@jc.ca', 'temporary', 'Temp Manager', '3040 West 2nd Ave', '250-700-7000', '2016-11-21');
+
 insert into member
 values(1212, 'password', 0);
 
@@ -250,6 +255,9 @@ values(5003, 4);
 
 insert into manager
 values(5004, 5);
+
+insert into manager
+values(5222, 1);
 
 insert into supplier_adds
 values('Jean Warehouse', '6434 W Broadway Vancouver, B.C. V4E 0C0', '604-555-5555', 5000);
