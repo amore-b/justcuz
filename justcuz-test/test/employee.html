@@ -51,23 +51,14 @@
         transition: 'vertical flip in',
         duration: 500
       });
-     /* $('.ui.button').on('click', function() {
-        var cid = $("input:first").val();
-        //console.log("clicked ui button");
-        //console.log(cid);
-        searchCID(cid);
-      });*/
       $('.search.icon').on('click', function() {
         var cid = $("input:first").val();
-        //console.log("clicked ui button");
-        console.log("test");
         searchCID(cid);
       });
       $('#cidInput').on('keypress', function(e) {
         if(e.which === 13) {
-          //disable input to prevent multiple submit
           var cid = $("input:first").val();
-          //console.log('here');
+          //disable input to prevent multiple submit
           $('#cidInput').blur();
           searchCID(cid);
         }
@@ -199,46 +190,24 @@
 </head>
 <body>
   <div class="ui fixed inverted menu">
-    <!--div class="ui container"-->
       <a href="main.html" class="header item">
         <img class="logo" src="assets/images/logo.png">
         Stuff n' Things
       </a>
-      <!--/div-->
     </div>
 
   <div class="ui main text container">
     <h1 class="ui header">Employee View</h1>
   </div>
-
-
-  <!--div class="ui borderless main menu"-->
     <div class="ui text container">
       Enter a Customer ID to see their order info
       <br/>
-      <!--div class="ui action input">
-        <input placeholder="Enter a CID here..." type="text">
-        <button class="ui button">Search</button>
-      </div-->
 
       <div class="ui big icon input">
         <input type="text" placeholder="Search for CID..." id='cidInput'>
         <i class="search link icon"></i>
       </div>      
     </div>
-
- 
-    <!--/div-->
   </div>
-
-  <!--div class='ui two column centered grid'-->
     <div class='column' id='catalog'></div>
-  <!--/div-->
-  <!--div class="ui text container" id="catalog"></div-->
-
-  <!--div class="ui inverted vertical footer segment">
-    <div class="ui center aligned container">
-      <img src="assets/images/logo.png" class="ui centered mini image">
-    </div>
-  </div-->
 </body>
