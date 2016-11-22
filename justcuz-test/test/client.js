@@ -23,7 +23,19 @@
       $('.ui.modal')
         .modal()
       ;
-          
+      $('#loginModal').modal("setting", {
+        onHide: function() {
+          $('#loginForm').form('clear');
+          $('#errorMsg').html("");
+        }
+      });
+      $('#signUpModal').modal("setting", {
+        onHide: function() {
+          $('#signUpForm').form('clear');
+          $('#formError').html("");
+          $('#sqlMsg').html("");
+        }
+      }); 
 
       function drawTable(data, value){
         if ((data.length != undefined) && (data.length != 0)) {
@@ -62,32 +74,7 @@
                      "<div class='ui inverted dimmer'><div class='content'><div class='center'>" + 
                      "<div class='ui primary button'>Buy now</div><br/><br/>" + "<font color='black'>" + desc + " $" +cardData.PRICE+"</font>" +"</div></div></div>" +
                      "<img src='catalog/" + cardData.ITEM_NUM +".jpg'></div></a>");
-        //card.append($("<div class='blurring dimmable image'><div class='ui inverted dimmer'><div class='content'><div class='centre'>$" + cardData.PRICE + " " + desc + "</div></div></div><img src='catalog/" + cardData.ITEM_NUM +".jpg'></div></div>"));
-        //card.append($("<div class='image'><img src='catalog/" + cardData.ITEM_NUM +".jpg'></div>"));
-        //card.append($("<div class='header'>" + cardData.ITEM_NUM + "</div>"));
-        
-
-
-        //card.append($("<div class='content'><div class='centre'>$" + cardData.PRICE + "</div><div class='description'>" + desc + "</div></div>"));
-        //card.append($("<div class='image'><img src='catalog/" + cardData.ITEM_NUM +".jpg'></a>"));
         return card;        
-        /*var card = $("<a class='card' href='orderPage.html?inum=" + cardData.ITEM_NUM + "&points=" + points + "&cid="+ cid + "&memName=" + memName +"&email=" + emailad +"&addy=" + addy + "&cardNum=" + cardNum + "&cardType=" + cardType +"&price="+ cardData.PRICE  +"'>");
-        card.append($("<div class='image'><img src='catalog/" + cardData.ITEM_NUM +".jpg'></div>"));
-        card.append($("<div class='header'>" + cardData.ITEM_NUM + "</div>"));
-        
-        var desc = "";
-        if(cardData.GENDER)
-          desc += cardData.GENDER + " ";
-        if(cardData.COLOR)
-          desc += cardData.COLOR + " ";
-        if(cardData.TYPE)
-          desc += cardData.TYPE + " ";        
-        if(cardData.COMPANY_NAME)
-          desc += "from " + cardData.COMPANY_NAME;
-
-        card.append($("<div class='content'><div class='meta'>$" + cardData.PRICE + "</div><div class='description'>" + desc + "</div></div></a>"));
-
-        return card;*/
       }
 
       function drawNoResults() {
@@ -109,11 +96,6 @@
                 toshow = "/all";
                 console.log("show all");
               } else {
-                // if ( $('#price').is( ":checked" )) {
-                //   price = "/price";
-                //   console.log("show price");
-                //   console.log(price);
-                // }
                 if ( $('#type').is( ":checked" )) {
                   type = "/type";
                   console.log("show type");
@@ -348,7 +330,6 @@
                   }
 
                   $('#loginModal').modal('hide');
-                  $('#loginModal').form('clear');
                   showLoginButton(false, result["NAME"]);
                   displayMerch("type", "/all");
                 } else {
@@ -378,12 +359,10 @@
               data: {"email": email, "password": password, "name": name,
                      "address": address, "cardType": cType, "cardNum": cNum},
               success: function(result) {
-                if(!result["ERROR"]) {//result["NAME"]) {
+                if(!result["error"]) {
                   console.log(result);
                   
-                  //id will be either cid or eid
                   cid = (result["CID"]);
-                                 
                   addy = address;
                   points = result["POINTS"];
                   memName = name;
@@ -401,6 +380,7 @@
                   showLoginButton(false, name);
                   displayMerch("type", "/all");
                 } else {
+                    $('#sqlMsg').html("<div class='ui error message' style='display:block; color:#9F3A38'><ul class='list'><li>"+result["error"]+"</li></ul></div>");
                     //display login error message
                     console.log(result);
                 }

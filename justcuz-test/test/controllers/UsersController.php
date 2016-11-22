@@ -182,7 +182,7 @@ class UsersController extends MyController
               $rr = oci_fetch_array($st, OCI_ASSOC);
               if($rr) {
                 $data = $rr;
-                $data["q"] = $q;
+                //$data["q"] = $q;
                 $data["error"] = "email address already exists. Please provide a different email";
                 break;
               } else {
