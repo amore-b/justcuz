@@ -27,6 +27,7 @@
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/dropdown.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/icon.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/transition.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/form.min.css">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/transition.min.js"></script>
@@ -55,7 +56,7 @@
       });
 
       function drawTable(data, value){
-        console.log("IN DRAW TABLE");
+        //console.log("IN DRAW TABLE");
         // for (var j in data[0]) {
         //   console.log(data[0][j]);
         // }
@@ -156,99 +157,22 @@
 </head>
 <body>
 <div class="ui fixed inverted menu">
-    <div class="ui container">
-      <a href="#" class="header item">
+  <div class="ui container">
+      <a href="main.html" class="header item">
         <img class="logo" src="assets/images/logo.png">
         Stuff n' Things
       </a>
-  <a href="main.html#" class="item">Home</a> 
   </div>
 </div>
-  <a href="main.html#">Go Home</a>
 
-  <div class="ui borderless main menu">
-      
-     <div class="ui action input">
-      <form action="inventory_action.php">
-         <input type="text" name="item" placeholder="item_num">
-         <div class="ui action input">
-         <input type="text" name="size" placeholder="size">
-         <div class="ui action input">
-         <input type="text" name="howmany" placeholder="count">
-         <input type="submit" value="Update Inventory">
-       </form>
-         </div>
-       </div>
-     </div>
-
-          <div class="ui action input">
-            <form action="supplier_action.php">
-           <input type="text" name="company_name" placeholder="company">
-           <div class="ui action input">
-           <input type="text" name="address" placeholder="address">
-             <div class="ui action input">
-             <input type="text" name="phone_num" placeholder="phone">
-               <div class="ui action input">
-               <input type="text" name="eid" placeholder="eid">
-         <input type="submit" value="Add Supplier">
-       </form>
-         </div>
-         </div>
-         </div>
-         </div>
-
-          <div class="ui action input">
-            <form action="employee_action.php">
-           <input type="text" name="employee" placeholder="eid">
-           <div class="ui action input">
-	   <input type="text" name="email" placeholder="email">
-	   <div class="ui action input">
-	   <input type="text" name="pass" placeholder="password">
-	   <div class="ui action input">
-           <input type="text" name="name" placeholder="name">
-             <div class="ui action input">
-             <input type="text" name="addy" placeholder="address">
-             <div class="ui action input">
-             <input type="text" name="phone" placeholder="phone">
-             <input type="submit" value="Add Employee">
-         </form>
+  <div class="ui borderless main menu"></div>
+  <div class="ui action input">
 	</div>
+  <div class="ui action input"> 
 	</div>
-       </div>
-     </div>
-   </div>
- </div>
+  <div class="ui action input">
+  </div>
 
-        <div class="ui action input"> 
-          <form action="employee_delete.php">
-           <input type="text" name="empid" placeholder="eid">
-         <input type="submit" value="Delete Employee">
-       </form>
-	</div>
-       
-
-       <div class="ui action input">
-        <form action="merch_action.php">
-           <input type="text" name="item_number" placeholder="item_num">
-           <div class="ui action input">
-           <input type="text" name="price" placeholder="price">
-             <div class="ui action input">
-             <input type="text" name="type" placeholder="type">
-             <div class="ui action input">
-             <input type="text" name="gender" placeholder="gender">
-             <div class="ui action input">
-             <input type="text" name="color" placeholder="color">
-               <div class="ui action input">
-               <input type="text" name="company" placeholder="company">
-         <input type="submit" value="Add Merchandise">
-       </form>
-       </div>
-     </div>
-   </div>
- </div>
-</div>
-</div>
-</div>
 <form action="interesting_funct_one.php">
 <input type="submit" value="Generate Report">
 </form>
@@ -257,6 +181,58 @@
 <i class="tree icon"></i>
 </button>
 </form>
+
+
+<div class='ui grid'>
+  <div class='three wide column'>
+    <form class="ui form" action="inventory_action.php">
+       <input type="text" name="item" placeholder="item_num">
+       <input type="text" name="size" placeholder="size">
+       <input type="text" name="howmany" placeholder="count">
+       <input type="submit" value="Update Inventory">
+     </form>   
+  </div>
+  <div class='three wide column'>
+    <form class='ui form'action="supplier_action.php">
+      <input type="text" name="company_name" placeholder="company">
+      <input type="text" name="address" placeholder="address">
+      <input type="text" name="phone_num" placeholder="phone">
+      <input type="text" name="eid" placeholder="eid">
+     <input type="submit" value="Add Supplier">
+   </form>    
+  </div>
+  <div class='three wide column'>
+    <form class='ui form' action="employee_action.php">
+      <input type="text" name="employee" placeholder="eid">
+      <input type="text" name="email" placeholder="email">
+      <input type="text" name="pass" placeholder="password">
+      <input type="text" name="name" placeholder="name">  
+      <input type="text" name="addy" placeholder="address">
+      <input type="text" name="phone" placeholder="phone">
+      <input type="submit" value="Add Employee">
+    </form>
+  </div>
+  <div class='three wide column'>
+    <form class='ui form' action="employee_delete.php">
+      <input type="text" name="empid" placeholder="eid">
+      <input type="submit" value="Delete Employee">
+     </form>
+  </div>
+  <div class='three wide column'>
+    <form class='ui form' action="merch_action.php">
+      <input type="text" name="item_number" placeholder="item_num">
+      <input type="text" name="price" placeholder="price">
+      <input type="text" name="type" placeholder="type">
+      <input type="text" name="gender" placeholder="gender">
+      <input type="text" name="color" placeholder="color">
+      <input type="text" name="company" placeholder="company">
+      <input type="submit" value="Add Merchandise">
+    </form>
+  </div>
+</div>
+
+  </div>     
+</div>
 
 </body>
 
