@@ -27,6 +27,8 @@
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/dropdown.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/icon.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/transition.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/table.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/input.min.css">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/transition.min.js"></script>
@@ -49,14 +51,26 @@
         transition: 'vertical flip in',
         duration: 500
       });
-      // $('.main.menu  .ui.dropdown')
-      //   .dropdown()
-      // ;
-      $('.ui.button').on('click', function() {
+     /* $('.ui.button').on('click', function() {
         var cid = $("input:first").val();
-        console.log("clicked ui button");
-        console.log(cid);
+        //console.log("clicked ui button");
+        //console.log(cid);
         searchCID(cid);
+      });*/
+      $('.search.icon').on('click', function() {
+        var cid = $("input:first").val();
+        //console.log("clicked ui button");
+        console.log("test");
+        searchCID(cid);
+      });
+      $('#cidInput').on('keypress', function(e) {
+        if(e.which === 13) {
+          //disable input to prevent multiple submit
+          var cid = $("input:first").val();
+          //console.log('here');
+          $('#cidInput').blur();
+          searchCID(cid);
+        }
       });
 
       function isNumeric(value) {
@@ -94,7 +108,7 @@
         if ((data.length != undefined) && (data.length != 0)) {
           var keys = Object.keys(data[0]);
           console.log(keys);
-          var table = $("<table>");
+          var table = $("<table class='ui large table'>");
           table.append($("<tr>"));
           for (var i=0; i<keys.length; i++) {
             table.append($("<td><b>"+keys[i]+"</b></td>"));
@@ -135,7 +149,7 @@
     background-color: #FFFFFF;
   }
   .main.container {
-    margin-top: 2em;
+    margin-top: 7em;
   }
   .main.menu {
     margin-top: 4em;
@@ -177,36 +191,54 @@
     margin: 5em 0em 0em;
     padding: 5em 0em;
   }
+  #catalog {
+    padding: 4em;
+  }
   </style>
 
 </head>
 <body>
+  <div class="ui fixed inverted menu">
+    <!--div class="ui container"-->
+      <a href="main.html" class="header item">
+        <img class="logo" src="assets/images/logo.png">
+        Stuff n' Things
+      </a>
+      <!--/div-->
+    </div>
 
   <div class="ui main text container">
     <h1 class="ui header">Employee View</h1>
   </div>
-  <a href="main.html#">Go Home</a>
 
 
-  <div class="ui borderless main menu">
+  <!--div class="ui borderless main menu"-->
     <div class="ui text container">
-      Enter a Customer ID to see that customer's order and personal information.
-      
-      <div class="ui action input">
+      Enter a Customer ID to see their order info
+      <br/>
+      <!--div class="ui action input">
         <input placeholder="Enter a CID here..." type="text">
         <button class="ui button">Search</button>
-      </div>
+      </div-->
+
+      <div class="ui big icon input">
+        <input type="text" placeholder="Search for CID..." id='cidInput'>
+        <i class="search link icon"></i>
+      </div>      
     </div>
 
  
-    </div>
+    <!--/div-->
   </div>
 
-  <div class="ui text container" id="catalog"></div>
+  <!--div class='ui two column centered grid'-->
+    <div class='column' id='catalog'></div>
+  <!--/div-->
+  <!--div class="ui text container" id="catalog"></div-->
 
-  <div class="ui inverted vertical footer segment">
+  <!--div class="ui inverted vertical footer segment">
     <div class="ui center aligned container">
       <img src="assets/images/logo.png" class="ui centered mini image">
     </div>
-  </div>
+  </div-->
 </body>
