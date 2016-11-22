@@ -6,8 +6,7 @@ if ($c=OCILogon("ora_m3c9", "a39296132", "dbhost.ugrad.cs.ubc.ca:1522/ug")) {
   $err = OCIError(); 
   echo "Oracle Connect Error " . $err['message']; 
 }
-//The following queries satisfy our first interesting functionality requirement. That is,
-//"Managers can generate a report that shows the names of suppliers who supplied our top five best-selling items (query based on user input).""
+//nested agg rerun
 
 $sql = " create view temporary as select cid, avg(quantity) avg_quant from order_delivers_buys group by cid order by avg_quant desc";
 $st=oci_parse($c, $sql);
