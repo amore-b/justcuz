@@ -61,7 +61,7 @@ MerchandiseController.php
 ------------
 SELECT " . $showstring . " FROM merchandise_supplies
 SELECT " . $showstring . " FROM merchandise_supplies WHERE type ='". $item_type. "'")
-"SELECT " . $showstring . " FROM merchandise_supplies WHERE gender ='". $gender. "'")
+SELECT " . $showstring . " FROM merchandise_supplies WHERE gender ='". $gender. "'")
 SELECT " . $showstring . " FROM merchandise_supplies WHERE color ='". $color. "'")
 SELECT " . $showstring . " FROM merchandise_supplies WHERE item_num ='". $item_num. "'")
 SELECT * FROM merchandise_supplies WHERE price=(SELECT MAX(price) FROM merchandise_supplies)")
@@ -69,6 +69,15 @@ SELECT * FROM merchandise_supplies WHERE price=(SELECT MIN(price) FROM merchandi
 
 UsersController.php
 -------------
+SELECT cid FROM customer
+SELECT * FROM users WHERE email='". $email. "'"
+SELECT * FROM employee WHERE eid='". $id. "'"
+SELECT * FROM employee where password ='". $password. "' and email = '". $email. "'"
 SELECT * FROM customer c, member m WHERE c.cid = m.cid AND m.password ='". $password. "' AND c.email = '". $email. "'"
-SELECT * FROM customer c, member m WHERE c.cid = m.cid AND c.cid='" . $cid. "'
+SELECT * FROM customer c, member m where c.cid = m.cid and c.email = '". $email. "'"
 SELECT * FROM customer c, member m WHERE c.cid = m.cid AND m.password ='". $password. "'"
+SELECT * FROM manager WHERE eid='". $row2["EID"]. "'"
+
+INSERT INTO users VALUES('$email', 2)
+INSERT INTO member VALUES('$cid', '$password', 100)
+INSERT INTO customer VALUES('$cid', '$name', '$email', '$address', '$cardNum', '$cardType')
