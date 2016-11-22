@@ -147,7 +147,7 @@
   </div>
   <div class="customer information">
     <!--form id="numform" oninput="x.value=parseFloat(a.value)*parseInt(b.value) - parseFloat(pnts.value)" action="action_page.php"-->
-    <form id="numform" class="ui form" oninput="x.value=parseFloat(a.value)*parseInt(b.value) - parseFloat(pnts.value)" action="action_page.php">
+    <form id="numform" class="ui form" oninput="x.value=(parseFloat(a.value)*parseInt(b.value) - parseFloat(pnts.value)).toFixed(2)" action="action_page.php">
     <div class="field">
       <input type="hidden" id="memid" name="memberid" value="" readonly>
     </div>

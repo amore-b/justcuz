@@ -1,7 +1,7 @@
 <html> 
+<a href="http://www.ugrad.cs.ubc.ca/~m3c9/final/justcuz/justcuz-test/test/main.html" class="button">Merry Christmas! (Go Home)</a>
 <?php 
 if ($c=OCILogon("ora_m3c9", "a39296132", "dbhost.ugrad.cs.ubc.ca:1522/ug")) { 
-  echo "Merry Christmas!\n"; 
 } else { 
   $err = OCIError(); 
   echo "Oracle Connect Error " . $err['message']; 
