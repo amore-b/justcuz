@@ -1,7 +1,7 @@
 <html> 
 <?php 
 if ($c=OCILogon("ora_m3c9", "a39296132", "dbhost.ugrad.cs.ubc.ca:1522/ug")) { 
-  echo "Suppliers who supplied our top five best-selling items.\n"; 
+  echo "Customer who had the most average purchases:\n"; 
 } else { 
   $err = OCIError(); 
   echo "Oracle Connect Error " . $err['message']; 
@@ -9,10 +9,10 @@ if ($c=OCILogon("ora_m3c9", "a39296132", "dbhost.ugrad.cs.ubc.ca:1522/ug")) {
 //The following queries satisfy our first interesting functionality requirement. That is,
 //"Managers can generate a report that shows the names of suppliers who supplied our top five best-selling items (query based on user input).""
 
-$sql = "create view topfive as item_num, count(*) as total_sales from order_delivers_buys group by item_num order by total_sales desc";
+$sql = " create view temporary as select cid, avg(quantity) avg_quant from order_delivers_buys group by cid order by avg_quant desc";
 $st=oci_parse($c, $sql);
 oci_execute($st);
-$sql = "select distinct company_name from merchandise_supplies where item_num in (select item_num from topfive where rownum <=5)";
+$sql = "select name from customer where cid in (select cid from temp1 where rownum<=1)";
 $st1=oci_parse($c, $sql);
 oci_execute($st1);
 
